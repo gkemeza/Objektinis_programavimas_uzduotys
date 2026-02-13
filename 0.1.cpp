@@ -43,5 +43,9 @@ int main()
 
         cout << "Iveskite egzamino paz: ";
         cin >> studentas.egzaminoBalas;
+
+        studentas.rezultatas = sum * 1.0 / (studentas.pazymiai.size() * 1.0) * 0.4 + studentas.egzaminoBalas * 0.6;
+        studentai.push_back(studentas);
+        studentas.pazymiai.clear();
     }
 };
