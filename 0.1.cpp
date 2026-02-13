@@ -19,6 +19,19 @@ struct Studentas
     double rezultatas;
 };
 
+void output(vector<Studentas> studentai)
+{
+    cout << left << setw(20) << "Pavarde" << left << setw(20) << "Vardas" << left << setw(20) << "Galutinis (Vid.)" << endl;
+    cout << string(100, '-') << endl;
+
+    for (auto studentas : studentai)
+    {
+        cout << left << setw(20) << studentas.pavarde << left << setw(20) << studentas.vardas << left << setw(20) << studentas.rezultatas << endl;
+    }
+}
+
+// Vidurki/mediana dalinti is tiek pat pazymiu, visiem studentams.
+
 int main()
 {
     Studentas studentas;
@@ -30,7 +43,7 @@ int main()
         cout << "Iveskite varda ir pavarde: ";
         cin >> studentas.vardas >> studentas.pavarde;
 
-        cout << "Iveskite semestro pazymiu skaiciu: ";
+        cout << "Iveskite semestro pazymiu skaiciu ";
         int n, temp;
         cin >> n;
         for (int i = 0; i < n; i++)
@@ -48,4 +61,6 @@ int main()
         studentai.push_back(studentas);
         studentas.pazymiai.clear();
     }
+
+    output(studentai);
 };
