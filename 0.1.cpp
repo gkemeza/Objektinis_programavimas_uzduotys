@@ -21,8 +21,8 @@ struct Studentas
 {
     string vardas = "A", pavarde = "B";
     vector<int> pazymiai;
-    int egzaminoBalas;
-    double galutinis;
+    int egzaminoBalas = 0;
+    double galutinis = 0;
 };
 
 void output(vector<Studentas> studentai)
@@ -55,46 +55,79 @@ int gautiVidurkiMediana(int pazymiuSuma, const Studentas &studentas, int size)
     }
 }
 
+int ranka(Studentas &studentas)
+{
+    int semestroPazymiuSuma = 0;
+    cout << "Iveskite varda ir pavarde: ";
+    cin >> studentas.vardas >> studentas.pavarde;
+
+    int n, temp;
+    do
+    {
+        cout << "Iveskite semestro pazymiu skaiciu (max " << maxPazymiai << "):";
+        cin >> n;
+    } while (n > maxPazymiai || n < 1);
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
+        cin >> temp;
+        studentas.pazymiai.push_back(temp);
+        semestroPazymiuSuma += temp;
+    }
+
+    cout << "Iveskite egzamino pazymi: ";
+    cin >> studentas.egzaminoBalas;
+
+    return semestroPazymiuSuma;
+}
+
+void suskaiciuotiGalutini(Studentas &studentas, int semestroPazymiuSuma)
+{
+    sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+
+    // int size = studentas.pazymiai.size();
+    // double vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentas, size);
+    double vidurkis = gautiVidurkiVidutini(semestroPazymiuSuma);
+
+    studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+}
+
 int main()
 {
     Studentas studentas;
     vector<Studentas> studentai;
+    int semestroPazymiuSuma;
+    int input;
 
-    for (int i = 0; i < 2; i++)
+    do
     {
-        int semestroPazymiuSuma = 0;
-        cout << "Iveskite varda ir pavarde: ";
-        cin >> studentas.vardas >> studentas.pavarde;
+        cout << "Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - baigti darbą):\n";
+        cin >> input;
 
-        int n, temp;
-        do
+        switch (input)
         {
-            cout << "Iveskite semestro pazymiu skaiciu (max " << maxPazymiai << "):";
-            cin >> n;
-        } while (n > maxPazymiai || n < 1);
-
-        for (int i = 0; i < n; i++)
-        {
-            cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
-            cin >> temp;
-            studentas.pazymiai.push_back(temp);
-            semestroPazymiuSuma += temp;
+        case 1:
+            semestroPazymiuSuma = ranka(studentas);
+            break;
+        case 2:
+            // semestroPazymiuSuma = generuotiPazymius(studentas);
+            break;
+        case 3:
+            // semestroPazymiuSuma = generuotisStudenta(studentas);
+            break;
+        case 4:
+            break;
+        default:
+            cout << "Neteisingas pasirinkimas!\n";
         }
 
-        cout << "Iveskite egzamino pazymi: ";
-        cin >> studentas.egzaminoBalas;
+    } while (input != 4);
 
-        sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+    suskaiciuotiGalutini(studentas, semestroPazymiuSuma);
 
-        // int size = studentas.pazymiai.size();
-        // double vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentas, size);
-        double vidurkis = gautiVidurkiVidutini(semestroPazymiuSuma);
-
-        studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
-
-        studentai.push_back(studentas);
-        studentas.pazymiai.clear();
-    }
+    studentai.push_back(studentas);
+    studentas = {};
 
     output(studentai);
 };
