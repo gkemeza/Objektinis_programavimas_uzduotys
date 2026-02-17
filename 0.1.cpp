@@ -15,7 +15,8 @@ using std::setw;
 using std::string;
 using std::vector;
 
-int maxPazymiai = 5;
+int namuDarbai = 5;
+int studentuSkaicius = 0;
 
 struct Studentas
 {
@@ -25,12 +26,19 @@ struct Studentas
     double galutinis = 0;
 };
 
-void output(vector<Studentas> studentai)
+void output(const vector<Studentas> &studentai, bool arMediana)
 {
-    cout << left << setw(20) << "Pavarde" << left << setw(20) << "Vardas" << left << setw(20) << "Galutinis (.)" << endl;
+    if (arMediana)
+    {
+        cout << left << setw(20) << "Pavarde" << left << setw(20) << "Vardas" << left << setw(20) << "Galutinis (Med.)" << endl;
+    }
+    else
+    {
+        cout << left << setw(20) << "Pavarde" << left << setw(20) << "Vardas" << left << setw(20) << "Galutinis (Vid.)" << endl;
+    }
     cout << string(100, '-') << endl;
 
-    for (auto studentas : studentai)
+    for (const Studentas &studentas : studentai)
     {
         cout << left << setw(20) << studentas.pavarde << left << setw(20) << studentas.vardas << left << setw(20) << fixed << setprecision(2) << studentas.galutinis << endl;
     }
@@ -38,11 +46,13 @@ void output(vector<Studentas> studentai)
 
 double gautiVidurkiVidutini(int pazymiuSuma)
 {
-    return (pazymiuSuma * 1.0) / (maxPazymiai * 1.0);
+    return (pazymiuSuma * 1.0) / (namuDarbai * 1.0);
 }
 
-int gautiVidurkiMediana(int pazymiuSuma, const Studentas &studentas, int size)
+int gautiVidurkiMediana(int pazymiuSuma, const Studentas &studentas)
 {
+    int size = studentas.pazymiai.size();
+
     if (size % 2 != 0)
     {
         return studentas.pazymiai[size / 2];
@@ -64,9 +74,9 @@ int ranka(Studentas &studentas)
     int n, temp;
     do
     {
-        cout << "Iveskite semestro pazymiu skaiciu (max " << maxPazymiai << "):";
+        cout << "Iveskite semestro pazymiu skaiciu (max " << namuDarbai << "): ";
         cin >> n;
-    } while (n > maxPazymiai || n < 1);
+    } while (n > namuDarbai || n < 1);
 
     for (int i = 0; i < n; i++)
     {
@@ -82,15 +92,40 @@ int ranka(Studentas &studentas)
     return semestroPazymiuSuma;
 }
 
-void suskaiciuotiGalutini(Studentas &studentas, int semestroPazymiuSuma)
+bool suskaiciuotiGalutini(vector<Studentas> &studentai, int semestroPazymiuSuma)
 {
-    sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+    double vidurkis;
+    int input;
+    do
+    {
+        cout << "Pasirinkite galutinio balo skaiciavimo buda (1-vidurkis, 2-mediana):\n";
+        cin >> input;
 
-    // int size = studentas.pazymiai.size();
-    // double vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentas, size);
-    double vidurkis = gautiVidurkiVidutini(semestroPazymiuSuma);
+        switch (input)
+        {
+            // TODO: fix semestroPazymiuSuma turi buti suskaiciuota pries si cikla
+        case 1:
+            for (Studentas &studentas : studentai)
+            {
+                vidurkis = gautiVidurkiVidutini(semestroPazymiuSuma);
+                studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+            }
+            return false;
+        case 2:
+            for (Studentas &studentas : studentai)
+            {
+                sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+                vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentas);
+                studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+            }
+            return true;
+        default:
+            cout << "Neteisingas pasirinkimas!";
+        }
 
-    studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+    } while (input != 1 && input != 2);
+
+    return false;
 }
 
 int main()
@@ -109,6 +144,8 @@ int main()
         {
         case 1:
             semestroPazymiuSuma = ranka(studentas);
+            studentai.push_back(studentas);
+            studentas = {};
             break;
         case 2:
             // semestroPazymiuSuma = generuotiPazymius(studentas);
@@ -124,10 +161,6 @@ int main()
 
     } while (input != 4);
 
-    suskaiciuotiGalutini(studentas, semestroPazymiuSuma);
-
-    studentai.push_back(studentas);
-    studentas = {};
-
-    output(studentai);
+    bool arMediana = suskaiciuotiGalutini(studentai, semestroPazymiuSuma);
+    output(studentai, arMediana);
 };
