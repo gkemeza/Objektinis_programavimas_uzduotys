@@ -203,5 +203,10 @@ int main()
 
     bool arMediana = suskaiciuotiGalutini(studentai);
     output(studentai, arMediana);
+
+    for (int i = 0; i < studentuSkaicius; i++)
+    {
+        delete[] studentai[i].pazymiai;
+    }
     delete[] studentai;
 };
