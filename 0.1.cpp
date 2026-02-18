@@ -92,10 +92,21 @@ int ranka(Studentas &studentas)
     return semestroPazymiuSuma;
 }
 
-bool suskaiciuotiGalutini(vector<Studentas> &studentai, int semestroPazymiuSuma)
+int gautiPazymiuSuma(const Studentas &studentas)
+{
+    int suma = 0;
+    for (int pazymys : studentas.pazymiai)
+    {
+        suma += pazymys;
+    }
+
+    return suma;
+}
+
+bool suskaiciuotiGalutini(vector<Studentas> &studentai)
 {
     double vidurkis;
-    int input;
+    int input, semestroPazymiuSuma;
     do
     {
         cout << "Pasirinkite galutinio balo skaiciavimo buda (1-vidurkis, 2-mediana):\n";
@@ -103,10 +114,10 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai, int semestroPazymiuSuma)
 
         switch (input)
         {
-            // TODO: fix semestroPazymiuSuma turi buti suskaiciuota pries si cikla
         case 1:
             for (Studentas &studentas : studentai)
             {
+                semestroPazymiuSuma = gautiPazymiuSuma(studentas);
                 vidurkis = gautiVidurkiVidutini(semestroPazymiuSuma);
                 studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
             }
@@ -115,6 +126,7 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai, int semestroPazymiuSuma)
             for (Studentas &studentas : studentai)
             {
                 sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+                semestroPazymiuSuma = gautiPazymiuSuma(studentas);
                 vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentas);
                 studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
             }
@@ -161,6 +173,6 @@ int main()
 
     } while (input != 4);
 
-    bool arMediana = suskaiciuotiGalutini(studentai, semestroPazymiuSuma);
+    bool arMediana = suskaiciuotiGalutini(studentai);
     output(studentai, arMediana);
 };
