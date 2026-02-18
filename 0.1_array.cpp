@@ -81,6 +81,7 @@ void pridetiStudenta(Studentas *&masyvas, Studentas &studentas)
 
 void pridetiPazymi(int *&masyvas, int pazymys)
 {
+    pazymiuSkaicius++;
     int *naujasMasyvas = new int[pazymiuSkaicius];
 
     for (int i = 0; i < pazymiuSkaicius - 1; i++)
@@ -99,6 +100,7 @@ int ranka(Studentas &studentas)
     cin >> studentas.vardas >> studentas.pavarde;
 
     studentuSkaicius += 1;
+    pazymiuSkaicius = 0;
     int n, pazymys, semestroPazymiuSuma = 0;
     do
     {
@@ -110,6 +112,7 @@ int ranka(Studentas &studentas)
     {
         cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
         cin >> pazymys;
+
         pridetiPazymi(studentas.pazymiai, pazymys);
         semestroPazymiuSuma += pazymys;
     }
@@ -153,7 +156,7 @@ bool suskaiciuotiGalutini(Studentas *&studentai)
         case 2:
             for (int i = 0; i < studentuSkaicius; i++)
             {
-                std::sort(studentai, studentai + studentuSkaicius);
+                sort(studentai[i].pazymiai, studentai[i].pazymiai + pazymiuSkaicius);
                 semestroPazymiuSuma = gautiPazymiuSuma(studentai[i]);
                 vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentai[i]);
                 studentai[i].galutinis = vidurkis * 0.4 + studentai[i].egzaminoBalas * 0.6;
