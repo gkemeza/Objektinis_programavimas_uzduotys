@@ -23,7 +23,7 @@ int pazymiuSkaicius = 0;
 struct Studentas
 {
     string vardas = "A", pavarde = "B";
-    int *pazymiai = new int[0];
+    int *pazymiai = new int[namuDarbai]();
     int egzaminoBalas = 0;
     double galutinis = 0;
 };
@@ -79,27 +79,12 @@ void pridetiStudenta(Studentas *&masyvas, Studentas &studentas)
     masyvas = naujasMasyvas;
 }
 
-void pridetiPazymi(int *&masyvas, int pazymys)
-{
-    pazymiuSkaicius++;
-    int *naujasMasyvas = new int[pazymiuSkaicius];
-
-    for (int i = 0; i < pazymiuSkaicius - 1; i++)
-    {
-        naujasMasyvas[i] = masyvas[i];
-    }
-    naujasMasyvas[pazymiuSkaicius - 1] = pazymys;
-
-    delete[] masyvas;
-    masyvas = naujasMasyvas;
-}
-
 int ranka(Studentas &studentas)
 {
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
-    studentuSkaicius += 1;
+    studentuSkaicius++;
     pazymiuSkaicius = 0;
     int n, pazymys, semestroPazymiuSuma = 0;
     do
@@ -113,7 +98,8 @@ int ranka(Studentas &studentas)
         cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
         cin >> pazymys;
 
-        pridetiPazymi(studentas.pazymiai, pazymys);
+        // pridetiPazymi(studentas.pazymiai, pazymys);
+        studentas.pazymiai[i] = pazymys;
         semestroPazymiuSuma += pazymys;
     }
 
@@ -171,10 +157,124 @@ bool suskaiciuotiGalutini(Studentas *&studentai)
     return false;
 }
 
+int generuotiStudenta(Studentas &studentas)
+{
+    switch (rand() % 10)
+    {
+    case 0:
+        studentas.vardas = "Irma";
+        break;
+    case 1:
+        studentas.vardas = "Alma";
+        break;
+    case 2:
+        studentas.vardas = "Irena";
+        break;
+    case 3:
+        studentas.vardas = "Egle";
+        break;
+    case 4:
+        studentas.vardas = "Jolanta";
+        break;
+    case 5:
+        studentas.vardas = "Petras";
+        break;
+    case 6:
+        studentas.vardas = "Jonas";
+        break;
+    case 7:
+        studentas.vardas = "Ignas";
+        break;
+    case 8:
+        studentas.vardas = "Darius";
+        break;
+    case 9:
+        studentas.vardas = "Simas";
+        break;
+    }
+    switch (*studentas.vardas.rbegin())
+    {
+    case 's':
+        switch (rand() % 5)
+        {
+        case 0:
+            studentas.pavarde = "Pavardenis1";
+            break;
+        case 1:
+            studentas.pavarde = "Pavardenis2";
+            break;
+        case 2:
+            studentas.pavarde = "Pavardenis3";
+            break;
+        case 3:
+            studentas.pavarde = "Pavardenis4";
+            break;
+        case 4:
+            studentas.pavarde = "Pavardenis5";
+            break;
+        }
+        break;
+    default:
+        switch (rand() % 5)
+        {
+        case 0:
+            studentas.pavarde = "Pavardaite1";
+            break;
+        case 1:
+            studentas.pavarde = "Pavardaite2";
+            break;
+        case 2:
+            studentas.pavarde = "Pavardaite3";
+            break;
+        case 3:
+            studentas.pavarde = "Pavardaite4";
+            break;
+        case 4:
+            studentas.pavarde = "Pavardaite5";
+            break;
+        }
+        break;
+    };
+
+    studentuSkaicius++;
+    int semestroPazymiuSuma = 0;
+    for (int i = 0; i < namuDarbai; i++)
+    {
+        int temp = rand() % 10 + 1;
+        studentas.pazymiai[i] = temp;
+        semestroPazymiuSuma += temp;
+    }
+
+    int temp = rand() % 10 + 1;
+    studentas.egzaminoBalas = temp;
+
+    return semestroPazymiuSuma;
+}
+
+int generuotiPazymius(Studentas &studentas)
+{
+    cout << "Iveskite varda ir pavarde: ";
+    cin >> studentas.vardas >> studentas.pavarde;
+
+    studentuSkaicius++;
+    int semestroPazymiuSuma = 0;
+    for (int i = 0; i < namuDarbai; i++)
+    {
+        int temp = rand() % 10 + 1;
+        studentas.pazymiai[i] = temp;
+        semestroPazymiuSuma += temp;
+    }
+
+    int temp = rand() % 10 + 1;
+    studentas.egzaminoBalas = temp;
+
+    return semestroPazymiuSuma;
+}
+
 int main()
 {
     Studentas studentas;
-    Studentas *studentai = new Studentas[studentuSkaicius];
+    Studentas *studentai = new Studentas[0];
     int semestroPazymiuSuma;
     int input;
 
@@ -191,10 +291,14 @@ int main()
             studentas = {};
             break;
         case 2:
-            // semestroPazymiuSuma = generuotiPazymius(studentas);
+            semestroPazymiuSuma = generuotiPazymius(studentas);
+            pridetiStudenta(studentai, studentas);
+            studentas = {};
             break;
         case 3:
-            // semestroPazymiuSuma = generuotiStudenta();
+            semestroPazymiuSuma = generuotiStudenta(studentas);
+            pridetiStudenta(studentai, studentas);
+            studentas = {};
             break;
         case 4:
             break;

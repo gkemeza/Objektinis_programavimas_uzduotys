@@ -16,7 +16,6 @@ using std::string;
 using std::vector;
 
 int namuDarbai = 5;
-int studentuSkaicius = 0;
 
 struct Studentas
 {
