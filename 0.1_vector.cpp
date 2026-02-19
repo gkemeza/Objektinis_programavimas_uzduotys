@@ -232,6 +232,25 @@ int generuotiStudenta(Studentas &studentas)
     return semestroPazymiuSuma;
 }
 
+int generuotiPazymius(Studentas &studentas)
+{
+    cout << "Iveskite varda ir pavarde: ";
+    cin >> studentas.vardas >> studentas.pavarde;
+
+    int semestroPazymiuSuma = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        int temp = rand() % 10 + 1;
+        studentas.pazymiai.push_back(temp);
+        semestroPazymiuSuma += temp;
+    }
+
+    int temp = rand() % 10 + 1;
+    studentas.egzaminoBalas = temp;
+
+    return semestroPazymiuSuma;
+}
+
 int main()
 {
     Studentas studentas;
@@ -252,7 +271,9 @@ int main()
             studentas = {};
             break;
         case 2:
-            // semestroPazymiuSuma = generuotiPazymius(studentas);
+            semestroPazymiuSuma = generuotiPazymius(studentas);
+            studentai.push_back(studentas);
+            studentas = {};
             break;
         case 3:
             semestroPazymiuSuma = generuotiStudenta(studentas);
