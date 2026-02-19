@@ -126,6 +126,15 @@ bool suskaiciuotiGalutini(Studentas *&studentai)
         cout << "Pasirinkite galutinio balo skaiciavimo buda (1-vidurkis, 2-mediana):\n";
         cin >> input;
 
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Neteisingas pasirinkimas!\n";
+            input = 0;
+            continue;
+        }
+
         switch (input)
         {
         case 1:
@@ -146,7 +155,7 @@ bool suskaiciuotiGalutini(Studentas *&studentai)
             }
             return true;
         default:
-            cout << "Neteisingas pasirinkimas!";
+            cout << "Neteisingas pasirinkimas!\n";
         }
 
     } while (input != 1 && input != 2);
@@ -279,6 +288,15 @@ int main()
     {
         cout << "Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - baigti darbą):\n";
         cin >> input;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Neteisingas pasirinkimas!\n";
+            input = 0;
+            continue;
+        }
 
         switch (input)
         {
