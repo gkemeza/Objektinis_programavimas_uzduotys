@@ -194,7 +194,7 @@ int main()
             // semestroPazymiuSuma = generuotiPazymius(studentas);
             break;
         case 3:
-            // semestroPazymiuSuma = generuotisStudenta(studentas);
+            // semestroPazymiuSuma = generuotiStudenta();
             break;
         case 4:
             break;

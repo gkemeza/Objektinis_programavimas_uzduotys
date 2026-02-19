@@ -67,11 +67,10 @@ int gautiVidurkiMediana(int pazymiuSuma, const Studentas &studentas)
 
 int ranka(Studentas &studentas)
 {
-    int semestroPazymiuSuma = 0;
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
-    int n, temp;
+    int n, temp, semestroPazymiuSuma = 0;
     do
     {
         cout << "Iveskite semestro pazymiu skaiciu (max " << namuDarbai << "): ";
@@ -140,6 +139,99 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
     return false;
 }
 
+int generuotiStudenta(Studentas &studentas)
+{
+    switch (rand() % 10)
+    {
+    case 0:
+        studentas.vardas = "Irma";
+        break;
+    case 1:
+        studentas.vardas = "Alma";
+        break;
+    case 2:
+        studentas.vardas = "Irena";
+        break;
+    case 3:
+        studentas.vardas = "Egle";
+        break;
+    case 4:
+        studentas.vardas = "Jolanta";
+        break;
+    case 5:
+        studentas.vardas = "Petras";
+        break;
+    case 6:
+        studentas.vardas = "Jonas";
+        break;
+    case 7:
+        studentas.vardas = "Ignas";
+        break;
+    case 8:
+        studentas.vardas = "Darius";
+        break;
+    case 9:
+        studentas.vardas = "Simas";
+        break;
+    }
+    switch (*studentas.vardas.rbegin())
+    {
+    case 's':
+        switch (rand() % 5)
+        {
+        case 0:
+            studentas.pavarde = "Pavardenis1";
+            break;
+        case 1:
+            studentas.pavarde = "Pavardenis2";
+            break;
+        case 2:
+            studentas.pavarde = "Pavardenis3";
+            break;
+        case 3:
+            studentas.pavarde = "Pavardenis4";
+            break;
+        case 4:
+            studentas.pavarde = "Pavardenis5";
+            break;
+        }
+        break;
+    default:
+        switch (rand() % 5)
+        {
+        case 0:
+            studentas.pavarde = "Pavardaite1";
+            break;
+        case 1:
+            studentas.pavarde = "Pavardaite2";
+            break;
+        case 2:
+            studentas.pavarde = "Pavardaite3";
+            break;
+        case 3:
+            studentas.pavarde = "Pavardaite4";
+            break;
+        case 4:
+            studentas.pavarde = "Pavardaite5";
+            break;
+        }
+        break;
+    };
+
+    int semestroPazymiuSuma = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        int temp = rand() % 10 + 1;
+        studentas.pazymiai.push_back(temp);
+        semestroPazymiuSuma += temp;
+    }
+
+    int temp = rand() % 10 + 1;
+    studentas.egzaminoBalas = temp;
+
+    return semestroPazymiuSuma;
+}
+
 int main()
 {
     Studentas studentas;
@@ -163,7 +255,9 @@ int main()
             // semestroPazymiuSuma = generuotiPazymius(studentas);
             break;
         case 3:
-            // semestroPazymiuSuma = generuotisStudenta(studentas);
+            semestroPazymiuSuma = generuotiStudenta(studentas);
+            studentai.push_back(studentas);
+            studentas = {};
             break;
         case 4:
             break;
