@@ -218,15 +218,15 @@ int generuotiStudenta(Studentas &studentas)
     };
 
     int semestroPazymiuSuma = 0;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < namuDarbai; i++)
     {
-        int temp = rand() % 10 + 1;
-        studentas.pazymiai.push_back(temp);
-        semestroPazymiuSuma += temp;
+        int randPazymys = rand() % 10 + 1;
+        studentas.pazymiai.push_back(randPazymys);
+        semestroPazymiuSuma += randPazymys;
     }
 
-    int temp = rand() % 10 + 1;
-    studentas.egzaminoBalas = temp;
+    int randBalas = rand() % 10 + 1;
+    studentas.egzaminoBalas = randBalas;
 
     return semestroPazymiuSuma;
 }
@@ -237,15 +237,15 @@ int generuotiPazymius(Studentas &studentas)
     cin >> studentas.vardas >> studentas.pavarde;
 
     int semestroPazymiuSuma = 0;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < namuDarbai; i++)
     {
-        int temp = rand() % 10 + 1;
-        studentas.pazymiai.push_back(temp);
-        semestroPazymiuSuma += temp;
+        int randPazymys = rand() % 10 + 1;
+        studentas.pazymiai.push_back(randPazymys);
+        semestroPazymiuSuma += randPazymys;
     }
 
-    int temp = rand() % 10 + 1;
-    studentas.egzaminoBalas = temp;
+    int randBalas = rand() % 10 + 1;
+    studentas.egzaminoBalas = randBalas;
 
     return semestroPazymiuSuma;
 }

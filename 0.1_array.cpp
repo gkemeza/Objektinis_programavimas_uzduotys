@@ -1,7 +1,6 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <vector>
 #include <algorithm>
 #include <cmath>
 using std::cin;
@@ -14,7 +13,6 @@ using std::setprecision;
 using std::setw;
 using std::sort;
 using std::string;
-using std::vector;
 
 int namuDarbai = 5;
 int studentuSkaicius = 0;
@@ -98,7 +96,6 @@ int ranka(Studentas &studentas)
         cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
         cin >> pazymys;
 
-        // pridetiPazymi(studentas.pazymiai, pazymys);
         studentas.pazymiai[i] = pazymys;
         semestroPazymiuSuma += pazymys;
     }
@@ -240,13 +237,13 @@ int generuotiStudenta(Studentas &studentas)
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {
-        int temp = rand() % 10 + 1;
-        studentas.pazymiai[i] = temp;
-        semestroPazymiuSuma += temp;
+        int randPazymys = rand() % 10 + 1;
+        studentas.pazymiai[i] = randPazymys;
+        semestroPazymiuSuma += randPazymys;
     }
 
-    int temp = rand() % 10 + 1;
-    studentas.egzaminoBalas = temp;
+    int randBalas = rand() % 10 + 1;
+    studentas.egzaminoBalas = randBalas;
 
     return semestroPazymiuSuma;
 }
@@ -260,13 +257,13 @@ int generuotiPazymius(Studentas &studentas)
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {
-        int temp = rand() % 10 + 1;
-        studentas.pazymiai[i] = temp;
-        semestroPazymiuSuma += temp;
+        int randPazymys = rand() % 10 + 1;
+        studentas.pazymiai[i] = randPazymys;
+        semestroPazymiuSuma += randPazymys;
     }
 
-    int temp = rand() % 10 + 1;
-    studentas.egzaminoBalas = temp;
+    int randBalas = rand() % 10 + 1;
+    studentas.egzaminoBalas = randBalas;
 
     return semestroPazymiuSuma;
 }
