@@ -15,7 +15,7 @@ using std::setw;
 using std::string;
 using std::vector;
 
-int namuDarbai = 5;
+int namuDarbai = 0;
 
 struct Studentas
 {
@@ -69,16 +69,16 @@ int ranka(Studentas &studentas)
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
-    int n, temp, semestroPazymiuSuma = 0;
+    int temp, semestroPazymiuSuma = 0;
     do
     {
-        cout << "Iveskite semestro pazymiu skaiciu (max " << namuDarbai << "): ";
-        cin >> n;
-    } while (n > namuDarbai || n < 1);
+        cout << "Iveskite semestro pazymiu skaiciu: ";
+        cin >> namuDarbai;
+    } while (namuDarbai < 1);
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < namuDarbai; i++)
     {
-        cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
+        cout << "Iveskite " << i + 1 << " pazymi is " << namuDarbai << ": ";
         cin >> temp;
         studentas.pazymiai.push_back(temp);
         semestroPazymiuSuma += temp;
@@ -226,6 +226,7 @@ int generuotiStudenta(Studentas &studentas)
         break;
     };
 
+    namuDarbai = 5;
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {
@@ -245,6 +246,7 @@ int generuotiPazymius(Studentas &studentas)
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
+    namuDarbai = 5;
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {
@@ -265,6 +267,7 @@ int main()
     vector<Studentas> studentai;
     int semestroPazymiuSuma;
     int input;
+    namuDarbai = 0;
 
     do
     {

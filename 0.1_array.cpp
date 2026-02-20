@@ -14,14 +14,14 @@ using std::setw;
 using std::sort;
 using std::string;
 
-int namuDarbai = 5;
+int namuDarbai = 0;
 int studentuSkaicius = 0;
 int pazymiuSkaicius = 0;
 
 struct Studentas
 {
     string vardas = "A", pavarde = "B";
-    int *pazymiai = new int[namuDarbai]();
+    int *pazymiai = new int[0];
     int egzaminoBalas = 0;
     double galutinis = 0;
 };
@@ -84,16 +84,16 @@ int ranka(Studentas &studentas)
 
     studentuSkaicius++;
     pazymiuSkaicius = 0;
-    int n, pazymys, semestroPazymiuSuma = 0;
+    int pazymys, semestroPazymiuSuma = 0;
     do
     {
-        cout << "Iveskite semestro pazymiu skaiciu (max " << namuDarbai << "): ";
-        cin >> n;
-    } while (n > namuDarbai || n < 1);
+        cout << "Iveskite semestro pazymiu skaiciu: ";
+        cin >> namuDarbai;
+    } while (namuDarbai < 1);
 
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < namuDarbai; i++)
     {
-        cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
+        cout << "Iveskite " << i + 1 << " pazymi is " << namuDarbai << ": ";
         cin >> pazymys;
 
         studentas.pazymiai[i] = pazymys;
@@ -117,7 +117,7 @@ int gautiPazymiuSuma(const Studentas &studentas)
     return suma;
 }
 
-bool suskaiciuotiGalutini(Studentas *&studentai)
+bool suskaiciuotiGalutini(Studentas *studentai)
 {
     double vidurkis;
     int input, semestroPazymiuSuma;
@@ -242,6 +242,7 @@ int generuotiStudenta(Studentas &studentas)
         break;
     };
 
+    namuDarbai = 5;
     studentuSkaicius++;
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
@@ -263,6 +264,7 @@ int generuotiPazymius(Studentas &studentas)
     cin >> studentas.vardas >> studentas.pavarde;
 
     studentuSkaicius++;
+    namuDarbai = 5;
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {
@@ -283,6 +285,7 @@ int main()
     Studentas *studentai = new Studentas[0];
     int semestroPazymiuSuma;
     int input;
+    namuDarbai = 0;
 
     do
     {
