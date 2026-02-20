@@ -16,11 +16,11 @@ using std::string;
 
 int namuDarbai = 0;
 int studentuSkaicius = 0;
-int pazymiuSkaicius = 0;
 
 struct Studentas
 {
     string vardas = "A", pavarde = "B";
+    int namuDarbai = 0;
     int *pazymiai = new int[0];
     int egzaminoBalas = 0;
     double galutinis = 0;
@@ -44,9 +44,9 @@ void output(const Studentas *studentai, bool arMediana)
     }
 }
 
-double gautiVidurkiVidutini(int pazymiuSuma)
+double gautiVidurkiVidutini(Studentas &studentas, int pazymiuSuma)
 {
-    return (pazymiuSuma * 1.0) / (namuDarbai * 1.0);
+    return (pazymiuSuma * 1.0) / (studentas.namuDarbai * 1.0);
 }
 
 int gautiVidurkiMediana(int pazymiuSuma, const Studentas &studentas)
@@ -83,7 +83,6 @@ int ranka(Studentas &studentas)
     cin >> studentas.vardas >> studentas.pavarde;
 
     studentuSkaicius++;
-    pazymiuSkaicius = 0;
     int pazymys, semestroPazymiuSuma = 0;
     do
     {
@@ -103,13 +102,14 @@ int ranka(Studentas &studentas)
     cout << "Iveskite egzamino pazymi: ";
     cin >> studentas.egzaminoBalas;
 
+    studentas.namuDarbai = namuDarbai;
     return semestroPazymiuSuma;
 }
 
 int gautiPazymiuSuma(const Studentas &studentas)
 {
     int suma = 0;
-    for (int i = 0; i < namuDarbai; i++)
+    for (int i = 0; i < studentas.namuDarbai; i++)
     {
         suma += studentas.pazymiai[i];
     }
@@ -141,14 +141,14 @@ bool suskaiciuotiGalutini(Studentas *studentai)
             for (int i = 0; i < studentuSkaicius; i++)
             {
                 semestroPazymiuSuma = gautiPazymiuSuma(studentai[i]);
-                vidurkis = gautiVidurkiVidutini(semestroPazymiuSuma);
+                vidurkis = gautiVidurkiVidutini(studentai[i], semestroPazymiuSuma);
                 studentai[i].galutinis = vidurkis * 0.4 + studentai[i].egzaminoBalas * 0.6;
             }
             return false;
         case 2:
             for (int i = 0; i < studentuSkaicius; i++)
             {
-                sort(studentai[i].pazymiai, studentai[i].pazymiai + pazymiuSkaicius);
+                sort(studentai[i].pazymiai, studentai[i].pazymiai + namuDarbai);
                 semestroPazymiuSuma = gautiPazymiuSuma(studentai[i]);
                 vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentai[i]);
                 studentai[i].galutinis = vidurkis * 0.4 + studentai[i].egzaminoBalas * 0.6;
@@ -243,6 +243,7 @@ int generuotiStudenta(Studentas &studentas)
     };
 
     namuDarbai = 5;
+    studentas.namuDarbai = namuDarbai;
     studentuSkaicius++;
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
@@ -265,6 +266,7 @@ int generuotiPazymius(Studentas &studentas)
 
     studentuSkaicius++;
     namuDarbai = 5;
+    studentas.namuDarbai = namuDarbai;
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {

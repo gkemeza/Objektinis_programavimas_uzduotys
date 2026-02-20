@@ -20,6 +20,7 @@ int namuDarbai = 0;
 struct Studentas
 {
     string vardas = "A", pavarde = "B";
+    int namuDarbai = 0;
     vector<int> pazymiai;
     int egzaminoBalas = 0;
     double galutinis = 0;
@@ -43,9 +44,9 @@ void output(const vector<Studentas> &studentai, bool arMediana)
     }
 }
 
-double gautiVidurkiVidutini(int pazymiuSuma)
+double gautiVidurkiVidutini(Studentas &studentas, int pazymiuSuma)
 {
-    return (pazymiuSuma * 1.0) / (namuDarbai * 1.0);
+    return (pazymiuSuma * 1.0) / (studentas.namuDarbai * 1.0);
 }
 
 int gautiVidurkiMediana(int pazymiuSuma, const Studentas &studentas)
@@ -87,6 +88,7 @@ int ranka(Studentas &studentas)
     cout << "Iveskite egzamino pazymi: ";
     cin >> studentas.egzaminoBalas;
 
+    studentas.namuDarbai = namuDarbai;
     return semestroPazymiuSuma;
 }
 
@@ -125,7 +127,7 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
             for (Studentas &studentas : studentai)
             {
                 semestroPazymiuSuma = gautiPazymiuSuma(studentas);
-                vidurkis = gautiVidurkiVidutini(semestroPazymiuSuma);
+                vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
                 studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
             }
             return false;
@@ -227,6 +229,7 @@ int generuotiStudenta(Studentas &studentas)
     };
 
     namuDarbai = 5;
+    studentas.namuDarbai = namuDarbai;
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {
@@ -247,6 +250,7 @@ int generuotiPazymius(Studentas &studentas)
     cin >> studentas.vardas >> studentas.pavarde;
 
     namuDarbai = 5;
+    studentas.namuDarbai = namuDarbai;
     int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {
