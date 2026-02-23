@@ -51,14 +51,14 @@ double gautiVidurkiVidutini(Studentas &studentas, int pazymiuSuma)
 
 int gautiVidurkiMediana(int pazymiuSuma, const Studentas &studentas)
 {
-    if (namuDarbai % 2 != 0)
+    if (studentas.namuDarbai % 2 != 0)
     {
-        return studentas.pazymiai[namuDarbai / 2];
+        return studentas.pazymiai[studentas.namuDarbai / 2];
     }
     else
     {
-        int number1 = studentas.pazymiai[(namuDarbai - 1) / 2];
-        int number2 = studentas.pazymiai[namuDarbai / 2];
+        int number1 = studentas.pazymiai[(studentas.namuDarbai - 1) / 2];
+        int number2 = studentas.pazymiai[studentas.namuDarbai / 2];
         return (number1 + number2) / 2.0;
     }
 }
@@ -77,12 +77,27 @@ void pridetiStudenta(Studentas *&masyvas, Studentas &studentas)
     masyvas = naujasMasyvas;
 }
 
+void pridetiPazymi(Studentas &studentas, int pazymioNr, int pazymys)
+{
+    int *naujasMasyvas = new int[pazymioNr];
+
+    for (int i = 0; i < pazymioNr - 1; i++)
+    {
+        naujasMasyvas[i] = studentas.pazymiai[i];
+    }
+    naujasMasyvas[pazymioNr - 1] = pazymys;
+
+    delete[] studentas.pazymiai;
+    studentas.pazymiai = naujasMasyvas;
+}
+
 int ranka(Studentas &studentas)
 {
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
     studentuSkaicius++;
+    namuDarbai = 0;
     int pazymys, semestroPazymiuSuma = 0;
     do
     {
@@ -92,10 +107,11 @@ int ranka(Studentas &studentas)
 
     for (int i = 0; i < namuDarbai; i++)
     {
-        cout << "Iveskite " << i + 1 << " pazymi is " << namuDarbai << ": ";
+        int pazymioNr = i + 1;
+        cout << "Iveskite " << pazymioNr << " pazymi is " << namuDarbai << ": ";
         cin >> pazymys;
 
-        studentas.pazymiai[i] = pazymys;
+        pridetiPazymi(studentas, pazymioNr, pazymys);
         semestroPazymiuSuma += pazymys;
     }
 
@@ -148,7 +164,7 @@ bool suskaiciuotiGalutini(Studentas *studentai)
         case 2:
             for (int i = 0; i < studentuSkaicius; i++)
             {
-                sort(studentai[i].pazymiai, studentai[i].pazymiai + namuDarbai);
+                sort(studentai[i].pazymiai, studentai[i].pazymiai + studentai[i].namuDarbai);
                 semestroPazymiuSuma = gautiPazymiuSuma(studentai[i]);
                 vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentai[i]);
                 studentai[i].galutinis = vidurkis * 0.4 + studentai[i].egzaminoBalas * 0.6;
