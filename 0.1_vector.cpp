@@ -70,7 +70,7 @@ int ranka(Studentas &studentas)
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
-    int temp, semestroPazymiuSuma = 0;
+    int pazymys, semestroPazymiuSuma = 0;
     do
     {
         cout << "Iveskite semestro pazymiu skaiciu: ";
@@ -79,15 +79,23 @@ int ranka(Studentas &studentas)
 
     for (int i = 0; i < namuDarbai; i++)
     {
-        cout << "Iveskite " << i + 1 << " pazymi is " << namuDarbai << ": ";
-        cin >> temp;
-        studentas.pazymiai.push_back(temp);
-        semestroPazymiuSuma += temp;
+        do
+        {
+            cout << "Iveskite " << i + 1 << " pazymi is " << namuDarbai << ": ";
+            cin >> pazymys;
+        } while (pazymys < 1 || pazymys > 10);
+
+        studentas.pazymiai.push_back(pazymys);
+        semestroPazymiuSuma += pazymys;
     }
 
-    cout << "Iveskite egzamino pazymi: ";
-    cin >> studentas.egzaminoBalas;
+    do
+    {
+        cout << "Iveskite egzamino pazymi: ";
+        cin >> pazymys;
+    } while (pazymys < 1 || pazymys > 10);
 
+    studentas.egzaminoBalas = pazymys;
     studentas.namuDarbai = namuDarbai;
     return semestroPazymiuSuma;
 }

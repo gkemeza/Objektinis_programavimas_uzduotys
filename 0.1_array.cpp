@@ -108,16 +108,23 @@ int ranka(Studentas &studentas)
     for (int i = 0; i < namuDarbai; i++)
     {
         int pazymioNr = i + 1;
-        cout << "Iveskite " << pazymioNr << " pazymi is " << namuDarbai << ": ";
-        cin >> pazymys;
+        do
+        {
+            cout << "Iveskite " << pazymioNr << " pazymi is " << namuDarbai << ": ";
+            cin >> pazymys;
+        } while (pazymys < 1 || pazymys > 10);
 
         pridetiPazymi(studentas, pazymioNr, pazymys);
         semestroPazymiuSuma += pazymys;
     }
 
-    cout << "Iveskite egzamino pazymi: ";
-    cin >> studentas.egzaminoBalas;
+    do
+    {
+        cout << "Iveskite egzamino pazymi: ";
+        cin >> pazymys;
+    } while (pazymys < 1 || pazymys > 10);
 
+    studentas.egzaminoBalas = pazymys;
     studentas.namuDarbai = namuDarbai;
     return semestroPazymiuSuma;
 }
