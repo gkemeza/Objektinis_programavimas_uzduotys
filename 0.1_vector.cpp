@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <fstream>
 using std::cin;
 using std::cout;
 using std::endl;
@@ -41,6 +42,17 @@ void output(const vector<Studentas> &studentai, bool arMediana)
     for (const Studentas &studentas : studentai)
     {
         cout << left << setw(20) << studentas.pavarde << left << setw(20) << studentas.vardas << left << setw(20) << fixed << setprecision(2) << studentas.galutinis << endl;
+    }
+}
+
+void outputFailas(const vector<Studentas> &studentai)
+{
+    cout << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)" << left << setw(20) << "Galutinis (Med.)" << endl;
+    cout << string(100, '-') << endl;
+
+    for (const Studentas &studentas : studentai)
+    {
+        cout << left << setw(20) << studentas.vardas << left << setw(20) << studentas.pavarde << left << setw(20) << fixed << setprecision(2) << studentas.galutinis << endl;
     }
 }
 
@@ -273,17 +285,49 @@ int generuotiPazymius(Studentas &studentas)
     return semestroPazymiuSuma;
 }
 
+bool nuskaitytiFaila(vector<Studentas> &studentai)
+{
+    std::ifstream failas("kursiokai.txt");
+    string antraste;
+
+    std::getline(failas, antraste);
+
+    namuDarbai = 5;
+    string vardas, pavarde;
+    while (failas >> vardas >> pavarde)
+    {
+        Studentas studentas;
+        studentas.namuDarbai = namuDarbai;
+        studentas.vardas = vardas;
+        studentas.pavarde = pavarde;
+
+        for (int i = 0; i < 5; i++)
+        {
+            int pazymys;
+            failas >> pazymys;
+            studentas.pazymiai.push_back(pazymys);
+        }
+
+        failas >> studentas.egzaminoBalas;
+
+        studentai.push_back(studentas);
+    }
+
+    return true;
+}
+
 int main()
 {
     Studentas studentas;
     vector<Studentas> studentai;
+    bool tiesa;
     int semestroPazymiuSuma;
     int input;
     namuDarbai = 0;
 
     do
     {
-        cout << "Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - baigti darbą):\n";
+        cout << "Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - nuskaityti failą, 5 - baigti darbą):\n";
         cin >> input;
 
         if (cin.fail())
@@ -313,13 +357,23 @@ int main()
             studentas = {};
             break;
         case 4:
+            tiesa = nuskaitytiFaila(studentai);
+            break;
+        case 5:
             break;
         default:
             cout << "Neteisingas pasirinkimas!\n";
         }
 
-    } while (input != 4);
+    } while (input != 4 && input != 5);
 
-    bool arMediana = suskaiciuotiGalutini(studentai);
-    output(studentai, arMediana);
+    if (tiesa)
+    {
+        outputFailas(studentai);
+    }
+    else
+    {
+        bool arMediana = suskaiciuotiGalutini(studentai);
+        output(studentai, arMediana);
+    }
 };
