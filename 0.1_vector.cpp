@@ -13,6 +13,7 @@ using std::left;
 using std::right;
 using std::setprecision;
 using std::setw;
+using std::sort;
 using std::string;
 using std::vector;
 
@@ -87,12 +88,12 @@ int gautiVidurkiMediana(const Studentas &studentas, int pazymiuSuma)
     }
 }
 
-int ranka(Studentas &studentas)
+void ranka(Studentas &studentas)
 {
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
-    int pazymys, semestroPazymiuSuma = 0;
+    int pazymys;
     do
     {
         cout << "Iveskite semestro pazymiu skaiciu: ";
@@ -108,7 +109,6 @@ int ranka(Studentas &studentas)
         } while (pazymys < 1 || pazymys > 10);
 
         studentas.pazymiai.push_back(pazymys);
-        semestroPazymiuSuma += pazymys;
     }
 
     do
@@ -119,7 +119,6 @@ int ranka(Studentas &studentas)
 
     studentas.egzaminoBalas = pazymys;
     studentas.namuDarbai = namuDarbai;
-    return semestroPazymiuSuma;
 }
 
 int gautiPazymiuSuma(const Studentas &studentas)
@@ -139,7 +138,7 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
     int input, semestroPazymiuSuma;
     do
     {
-        cout << "Pasirinkite galutinio balo skaiciavimo buda (1-vidurkis, 2-mediana):\n";
+        cout << "Pasirinkite galutinio balo skaiciavimo buda (1 - vidurkis, 2 - mediana):\n";
         cin >> input;
 
         if (cin.fail())
@@ -190,12 +189,13 @@ void suskaiciuotiGalutinius(vector<Studentas> &studentai)
         vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
         studentas.galutinisVidurkis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
 
+        sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
         mediana = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
         studentas.galutinisMediana = mediana * 0.4 + studentas.egzaminoBalas * 0.6;
     }
 }
 
-int generuotiStudenta(Studentas &studentas)
+void generuotiStudenta(Studentas &studentas)
 {
     switch (rand() % 10)
     {
@@ -276,39 +276,31 @@ int generuotiStudenta(Studentas &studentas)
 
     namuDarbai = 5;
     studentas.namuDarbai = namuDarbai;
-    int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {
         int randPazymys = rand() % 10 + 1;
         studentas.pazymiai.push_back(randPazymys);
-        semestroPazymiuSuma += randPazymys;
     }
 
     int randBalas = rand() % 10 + 1;
     studentas.egzaminoBalas = randBalas;
-
-    return semestroPazymiuSuma;
 }
 
-int generuotiPazymius(Studentas &studentas)
+void generuotiPazymius(Studentas &studentas)
 {
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
     namuDarbai = 5;
     studentas.namuDarbai = namuDarbai;
-    int semestroPazymiuSuma = 0;
     for (int i = 0; i < namuDarbai; i++)
     {
         int randPazymys = rand() % 10 + 1;
         studentas.pazymiai.push_back(randPazymys);
-        semestroPazymiuSuma += randPazymys;
     }
 
     int randBalas = rand() % 10 + 1;
     studentas.egzaminoBalas = randBalas;
-
-    return semestroPazymiuSuma;
 }
 
 bool nuskaitytiFaila(vector<Studentas> &studentai)
@@ -342,12 +334,69 @@ bool nuskaitytiFaila(vector<Studentas> &studentai)
     return true;
 }
 
+bool rusiuotiPagalVarda(Studentas &a, Studentas &b)
+{
+    return a.vardas < b.vardas;
+}
+
+bool rusiuotiPagalPavarde(Studentas &a, Studentas &b)
+{
+    return a.pavarde < b.pavarde;
+}
+
+bool rusiuotiPagalVidurki(Studentas &a, Studentas &b)
+{
+    return a.galutinisVidurkis < b.galutinisVidurkis;
+}
+
+bool rusiuotiPagalMediana(Studentas &a, Studentas &b)
+{
+    return a.galutinisMediana < b.galutinisMediana;
+}
+
+void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
+{
+    int input;
+    do
+    {
+        cout << "Pasirinkite pagal ka surusiuoti (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n";
+        cin >> input;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Neteisingas pasirinkimas!\n";
+            input = 0;
+            continue;
+        }
+
+        switch (input)
+        {
+        case 1:
+            sort(studentai.begin(), studentai.end(), rusiuotiPagalVarda);
+            break;
+        case 2:
+            sort(studentai.begin(), studentai.end(), rusiuotiPagalPavarde);
+            break;
+        case 3:
+            sort(studentai.begin(), studentai.end(), rusiuotiPagalVidurki);
+            break;
+        case 4:
+            sort(studentai.begin(), studentai.end(), rusiuotiPagalMediana);
+            break;
+        default:
+            cout << "Neteisingas pasirinkimas!\n";
+            break;
+        }
+    } while (input != 1 && input != 2 && input != 3 && input != 4);
+}
+
 int main()
 {
     Studentas studentas;
     vector<Studentas> studentai;
     bool isFailo;
-    int semestroPazymiuSuma;
     int input;
     namuDarbai = 0;
 
@@ -368,17 +417,17 @@ int main()
         switch (input)
         {
         case 1:
-            semestroPazymiuSuma = ranka(studentas);
+            ranka(studentas);
             studentai.push_back(studentas);
             studentas = {};
             break;
         case 2:
-            semestroPazymiuSuma = generuotiPazymius(studentas);
+            generuotiPazymius(studentas);
             studentai.push_back(studentas);
             studentas = {};
             break;
         case 3:
-            semestroPazymiuSuma = generuotiStudenta(studentas);
+            generuotiStudenta(studentas);
             studentai.push_back(studentas);
             studentas = {};
             break;
@@ -396,6 +445,7 @@ int main()
     if (isFailo)
     {
         suskaiciuotiGalutinius(studentai);
+        surusiuotiPagalPasirinkima(studentai);
         outputFailas(studentai);
     }
     else
