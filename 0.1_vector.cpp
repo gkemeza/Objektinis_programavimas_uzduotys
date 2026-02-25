@@ -66,12 +66,12 @@ void outputFailas(const vector<Studentas> &studentai)
     }
 }
 
-double gautiVidurkiVidutini(Studentas &studentas, int pazymiuSuma)
+double gautiVidurkiVidutini(const Studentas &studentas, int pazymiuSuma)
 {
     return (pazymiuSuma * 1.0) / (studentas.namuDarbai * 1.0);
 }
 
-int gautiVidurkiMediana(int pazymiuSuma, const Studentas &studentas)
+int gautiVidurkiMediana(const Studentas &studentas, int pazymiuSuma)
 {
     int size = studentas.pazymiai.size();
 
@@ -166,7 +166,7 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
             {
                 sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
                 semestroPazymiuSuma = gautiPazymiuSuma(studentas);
-                vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentas);
+                vidurkis = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
                 studentas.galutinisMediana = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
             }
             return true;
@@ -181,6 +181,18 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
 
 void suskaiciuotiGalutinius(vector<Studentas> &studentai)
 {
+    double vidurkis, mediana;
+    int semestroPazymiuSuma;
+    for (Studentas &studentas : studentai)
+    {
+        semestroPazymiuSuma = gautiPazymiuSuma(studentas);
+
+        vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
+        studentas.galutinisVidurkis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+
+        mediana = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
+        studentas.galutinisMediana = mediana * 0.4 + studentas.egzaminoBalas * 0.6;
+    }
 }
 
 int generuotiStudenta(Studentas &studentas)
@@ -334,7 +346,7 @@ int main()
 {
     Studentas studentas;
     vector<Studentas> studentai;
-    bool tiesa;
+    bool isFailo;
     int semestroPazymiuSuma;
     int input;
     namuDarbai = 0;
@@ -371,7 +383,7 @@ int main()
             studentas = {};
             break;
         case 4:
-            tiesa = nuskaitytiFaila(studentai);
+            isFailo = nuskaitytiFaila(studentai);
             break;
         case 5:
             break;
@@ -381,8 +393,9 @@ int main()
 
     } while (input != 4 && input != 5);
 
-    if (tiesa)
+    if (isFailo)
     {
+        suskaiciuotiGalutinius(studentai);
         outputFailas(studentai);
     }
     else
