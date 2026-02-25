@@ -24,7 +24,8 @@ struct Studentas
     int namuDarbai = 0;
     vector<int> pazymiai;
     int egzaminoBalas = 0;
-    double galutinis = 0;
+    double galutinisVidurkis = 0;
+    double galutinisMediana = 0;
 };
 
 void output(const vector<Studentas> &studentai, bool arMediana)
@@ -32,27 +33,36 @@ void output(const vector<Studentas> &studentai, bool arMediana)
     if (arMediana)
     {
         cout << left << setw(20) << "Pavarde" << left << setw(20) << "Vardas" << left << setw(20) << "Galutinis (Med.)" << endl;
+        cout << string(100, '-') << endl;
+        for (const Studentas &studentas : studentai)
+        {
+            cout << left << setw(20) << studentas.pavarde << left << setw(20) << studentas.vardas
+                 << left << setw(20) << fixed << setprecision(2) << studentas.galutinisMediana << endl;
+        }
     }
     else
     {
         cout << left << setw(20) << "Pavarde" << left << setw(20) << "Vardas" << left << setw(20) << "Galutinis (Vid.)" << endl;
-    }
-    cout << string(100, '-') << endl;
-
-    for (const Studentas &studentas : studentai)
-    {
-        cout << left << setw(20) << studentas.pavarde << left << setw(20) << studentas.vardas << left << setw(20) << fixed << setprecision(2) << studentas.galutinis << endl;
+        cout << string(100, '-') << endl;
+        for (const Studentas &studentas : studentai)
+        {
+            cout << left << setw(20) << studentas.pavarde << left << setw(20) << studentas.vardas
+                 << left << setw(20) << fixed << setprecision(2) << studentas.galutinisVidurkis << endl;
+        }
     }
 }
 
 void outputFailas(const vector<Studentas> &studentai)
 {
-    cout << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)" << left << setw(20) << "Galutinis (Med.)" << endl;
+    cout << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)"
+         << left << setw(20) << "Galutinis (Med.)" << endl;
     cout << string(100, '-') << endl;
 
     for (const Studentas &studentas : studentai)
     {
-        cout << left << setw(20) << studentas.vardas << left << setw(20) << studentas.pavarde << left << setw(20) << fixed << setprecision(2) << studentas.galutinis << endl;
+        cout << left << setw(20) << studentas.vardas << left << setw(20) << studentas.pavarde
+             << left << setw(20) << fixed << setprecision(2) << studentas.galutinisVidurkis
+             << left << setw(20) << fixed << setprecision(2) << studentas.galutinisMediana << endl;
     }
 }
 
@@ -148,7 +158,7 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
             {
                 semestroPazymiuSuma = gautiPazymiuSuma(studentas);
                 vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
-                studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+                studentas.galutinisVidurkis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
             }
             return false;
         case 2:
@@ -157,7 +167,7 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
                 sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
                 semestroPazymiuSuma = gautiPazymiuSuma(studentas);
                 vidurkis = gautiVidurkiMediana(semestroPazymiuSuma, studentas);
-                studentas.galutinis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+                studentas.galutinisMediana = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
             }
             return true;
         default:
@@ -167,6 +177,10 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
     } while (input != 1 && input != 2);
 
     return false;
+}
+
+void suskaiciuotiGalutinius(vector<Studentas> &studentai)
+{
 }
 
 int generuotiStudenta(Studentas &studentas)
