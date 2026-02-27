@@ -37,7 +37,6 @@ struct Studentas
 class Timer
 {
     using hrClock = high_resolution_clock;
-    using durationDouble = duration<double>;
 
 private:
     time_point<hrClock> start;
@@ -50,7 +49,7 @@ public:
     }
     double elapsed() const
     {
-        return durationDouble(hrClock::now() - start).count();
+        return duration<double>(hrClock::now() - start).count();
     }
 };
 
@@ -363,22 +362,22 @@ bool nuskaitytiFaila(vector<Studentas> &studentai, string failoPavadinimas, int 
     return true;
 }
 
-bool rusiuotiPagalVarda(Studentas &a, Studentas &b)
+bool rusiuotiPagalVarda(const Studentas &a, const Studentas &b)
 {
     return a.vardas < b.vardas;
 }
 
-bool rusiuotiPagalPavarde(Studentas &a, Studentas &b)
+bool rusiuotiPagalPavarde(const Studentas &a, const Studentas &b)
 {
     return a.pavarde < b.pavarde;
 }
 
-bool rusiuotiPagalVidurki(Studentas &a, Studentas &b)
+bool rusiuotiPagalVidurki(const Studentas &a, const Studentas &b)
 {
     return a.galutinisVidurkis < b.galutinisVidurkis;
 }
 
-bool rusiuotiPagalMediana(Studentas &a, Studentas &b)
+bool rusiuotiPagalMediana(const Studentas &a, const Studentas &b)
 {
     return a.galutinisMediana < b.galutinisMediana;
 }
@@ -463,10 +462,10 @@ int main()
         case 4:
         {
             Timer t;
-            isFailo = nuskaitytiFaila(studentai, "studentai.txt", 5);
+            // isFailo = nuskaitytiFaila(studentai, "studentai.txt", 5);
             // isFailo = nuskaitytiFaila(studentai, "studentai10000.txt", 15);
             // isFailo = nuskaitytiFaila(studentai, "studentai100000.txt", 20);
-            // isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt", 7);
+            isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt", 7);
 
             cout << fixed << setprecision(2);
             cout << "Nuskaitymo laikas: " << t.elapsed() << " s" << endl;
@@ -494,9 +493,4 @@ int main()
         bool arMediana = suskaiciuotiGalutini(studentai);
         output(studentai, arMediana);
     }
-
-    // studentai.txt nuskaitymo vidurkis - 0.00 s
-    // studentai10000.txt nuskaitymo vidurkis - 0.44 s
-    // studentai100000.txt nuskaitymo vidurkis - 1.99 s
-    // studentai1000000.txt nuskaitymo vidurkis - 16.52 s
 };
