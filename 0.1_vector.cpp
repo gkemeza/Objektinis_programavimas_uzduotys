@@ -5,10 +5,12 @@
 #include <algorithm>
 #include <cmath>
 #include <fstream>
+#include <chrono>
 using std::cin;
 using std::cout;
 using std::endl;
 using std::fixed;
+using std::ifstream;
 using std::left;
 using std::right;
 using std::setprecision;
@@ -16,6 +18,9 @@ using std::setw;
 using std::sort;
 using std::string;
 using std::vector;
+using std::chrono::duration;
+using std::chrono::high_resolution_clock;
+using std::chrono::time_point;
 
 int namuDarbai = 0;
 
@@ -29,26 +34,49 @@ struct Studentas
     double galutinisMediana = 0;
 };
 
+class Timer
+{
+    using hrClock = high_resolution_clock;
+    using durationDouble = duration<double>;
+
+private:
+    time_point<hrClock> start;
+
+public:
+    Timer() : start{hrClock::now()} {}
+    void reset()
+    {
+        start = hrClock::now();
+    }
+    double elapsed() const
+    {
+        return durationDouble(hrClock::now() - start).count();
+    }
+};
+
 void output(const vector<Studentas> &studentai, bool arMediana)
 {
+    cout << left << fixed << setprecision(2);
     if (arMediana)
     {
-        cout << left << setw(20) << "Pavarde" << left << setw(20) << "Vardas" << left << setw(20) << "Galutinis (Med.)" << endl;
+        cout << setw(20) << "Pavarde" << setw(20) << "Vardas" << setw(20) << "Galutinis (Med.)" << endl;
         cout << string(100, '-') << endl;
         for (const Studentas &studentas : studentai)
         {
-            cout << left << setw(20) << studentas.pavarde << left << setw(20) << studentas.vardas
-                 << left << setw(20) << fixed << setprecision(2) << studentas.galutinisMediana << endl;
+            cout << setw(20) << studentas.pavarde
+                 << setw(20) << studentas.vardas
+                 << setw(20) << studentas.galutinisMediana << endl;
         }
     }
     else
     {
-        cout << left << setw(20) << "Pavarde" << left << setw(20) << "Vardas" << left << setw(20) << "Galutinis (Vid.)" << endl;
+        cout << setw(20) << "Pavarde" << setw(20) << "Vardas" << setw(20) << "Galutinis (Vid.)" << endl;
         cout << string(100, '-') << endl;
         for (const Studentas &studentas : studentai)
         {
-            cout << left << setw(20) << studentas.pavarde << left << setw(20) << studentas.vardas
-                 << left << setw(20) << fixed << setprecision(2) << studentas.galutinisVidurkis << endl;
+            cout << setw(20) << studentas.pavarde
+                 << setw(20) << studentas.vardas
+                 << setw(20) << studentas.galutinisVidurkis << endl;
         }
     }
 }
@@ -59,11 +87,13 @@ void outputFailas(const vector<Studentas> &studentai)
          << left << setw(20) << "Galutinis (Med.)" << endl;
     cout << string(100, '-') << endl;
 
+    cout << left << fixed << setprecision(2);
     for (const Studentas &studentas : studentai)
     {
-        cout << left << setw(20) << studentas.vardas << left << setw(20) << studentas.pavarde
-             << left << setw(20) << fixed << setprecision(2) << studentas.galutinisVidurkis
-             << left << setw(20) << fixed << setprecision(2) << studentas.galutinisMediana << endl;
+        cout << setw(20) << studentas.vardas
+             << setw(20) << studentas.pavarde
+             << setw(20) << studentas.galutinisVidurkis
+             << setw(20) << studentas.galutinisMediana << endl;
     }
 }
 
@@ -303,14 +333,13 @@ void generuotiPazymius(Studentas &studentas)
     studentas.egzaminoBalas = randBalas;
 }
 
-bool nuskaitytiFaila(vector<Studentas> &studentai)
+bool nuskaitytiFaila(vector<Studentas> &studentai, string failoPavadinimas, int namuDarbai)
 {
-    std::ifstream failas("kursiokai.txt");
+    ifstream failas(failoPavadinimas);
     string antraste;
 
-    std::getline(failas, antraste);
+    getline(failas, antraste);
 
-    namuDarbai = 5;
     string vardas, pavarde;
     while (failas >> vardas >> pavarde)
     {
@@ -319,7 +348,7 @@ bool nuskaitytiFaila(vector<Studentas> &studentai)
         studentas.vardas = vardas;
         studentas.pavarde = pavarde;
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < namuDarbai; i++)
         {
             int pazymys;
             failas >> pazymys;
@@ -432,8 +461,17 @@ int main()
             studentas = {};
             break;
         case 4:
-            isFailo = nuskaitytiFaila(studentai);
+        {
+            Timer t;
+            isFailo = nuskaitytiFaila(studentai, "studentai.txt", 5);
+            // isFailo = nuskaitytiFaila(studentai, "studentai10000.txt", 15);
+            // isFailo = nuskaitytiFaila(studentai, "studentai100000.txt", 20);
+            // isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt", 7);
+
+            cout << fixed << setprecision(2);
+            cout << "Nuskaitymo laikas: " << t.elapsed() << " s" << endl;
             break;
+        }
         case 5:
             break;
         default:
@@ -446,11 +484,19 @@ int main()
     {
         suskaiciuotiGalutinius(studentai);
         surusiuotiPagalPasirinkima(studentai);
+        Timer t;
         outputFailas(studentai);
+        cout << fixed << setprecision(2);
+        cout << "Output laikas: " << t.elapsed() << " s" << endl;
     }
     else
     {
         bool arMediana = suskaiciuotiGalutini(studentai);
         output(studentai, arMediana);
     }
+
+    // studentai.txt nuskaitymo vidurkis - 0.00 s
+    // studentai10000.txt nuskaitymo vidurkis - 0.44 s
+    // studentai100000.txt nuskaitymo vidurkis - 1.99 s
+    // studentai1000000.txt nuskaitymo vidurkis - 16.52 s
 };
