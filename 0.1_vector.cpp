@@ -6,6 +6,7 @@
 #include <cmath>
 #include <fstream>
 #include <chrono>
+#include <sstream>
 using std::cin;
 using std::cout;
 using std::endl;
@@ -80,7 +81,7 @@ void output(const vector<Studentas> &studentai, bool arMediana)
     }
 }
 
-void outputFailas(const vector<Studentas> &studentai)
+void isvestisKonsole(const vector<Studentas> &studentai)
 {
     cout << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)"
          << left << setw(20) << "Galutinis (Med.)" << endl;
@@ -93,6 +94,25 @@ void outputFailas(const vector<Studentas> &studentai)
              << setw(20) << studentas.pavarde
              << setw(20) << studentas.galutinisVidurkis
              << setw(20) << studentas.galutinisMediana << endl;
+    }
+}
+
+void isvestisFailas(const vector<Studentas> &studentai)
+{
+    std::ofstream failas("isvestis.txt");
+
+    failas
+        << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)"
+        << left << setw(20) << "Galutinis (Med.)" << endl;
+    failas << string(100, '-') << endl;
+
+    failas << left << fixed << setprecision(2);
+    for (const Studentas &studentas : studentai)
+    {
+        failas << setw(20) << studentas.vardas
+               << setw(20) << studentas.pavarde
+               << setw(20) << studentas.galutinisVidurkis
+               << setw(20) << studentas.galutinisMediana << endl;
     }
 }
 
@@ -332,17 +352,28 @@ void generuotiPazymius(Studentas &studentas)
     studentas.egzaminoBalas = randBalas;
 }
 
-bool nuskaitytiFaila(vector<Studentas> &studentai, string failoPavadinimas, int namuDarbai)
+bool nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinimas)
 {
     ifstream failas(failoPavadinimas);
     string antraste;
 
     getline(failas, antraste);
+    std::istringstream ss(antraste);
 
+    string zodis;
+    int zodziuSkaicius = 0;
+    while (ss >> zodis)
+    {
+        zodziuSkaicius++;
+    }
+
+    int namuDarbai = zodziuSkaicius - 3;
+
+    Studentas studentas;
     string vardas, pavarde;
     while (failas >> vardas >> pavarde)
     {
-        Studentas studentas;
+        studentas.pazymiai.clear();
         studentas.namuDarbai = namuDarbai;
         studentas.vardas = vardas;
         studentas.pavarde = pavarde;
@@ -355,7 +386,6 @@ bool nuskaitytiFaila(vector<Studentas> &studentai, string failoPavadinimas, int 
         }
 
         failas >> studentas.egzaminoBalas;
-
         studentai.push_back(studentas);
     }
 
@@ -461,11 +491,13 @@ int main()
             break;
         case 4:
         {
+            // system("powershell (ls *.txt).Name");
+
             Timer t;
-            // isFailo = nuskaitytiFaila(studentai, "studentai.txt", 5);
-            // isFailo = nuskaitytiFaila(studentai, "studentai10000.txt", 15);
+            // isFailo = nuskaitytiFaila(studentai, "kursiokai.txt", 5);
+            isFailo = nuskaitytiFaila(studentai, "studentai10000.txt");
             // isFailo = nuskaitytiFaila(studentai, "studentai100000.txt", 20);
-            isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt", 7);
+            // isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt", 7);
 
             cout << fixed << setprecision(2);
             cout << "Nuskaitymo laikas: " << t.elapsed() << " s" << endl;
@@ -483,8 +515,10 @@ int main()
     {
         suskaiciuotiGalutinius(studentai);
         surusiuotiPagalPasirinkima(studentai);
+
         Timer t;
-        outputFailas(studentai);
+        isvestisFailas(studentai);
+        // isvestisKonsole(studentai);
         cout << fixed << setprecision(2);
         cout << "Output laikas: " << t.elapsed() << " s" << endl;
     }
@@ -494,3 +528,10 @@ int main()
         output(studentai, arMediana);
     }
 };
+
+// Isvedimas i faila +
+// atnaujinti rand pagal naujai kaip rode (generavime)
+// namudarbai dinamiskai skaityti is failo, o ne ranka ivesti +
+// +matuoti tik tas vietas kur nera user delay
+// failo nuskaityma patobulinti +
+// outputFile pataisyti name +
