@@ -7,17 +7,23 @@
 #include <fstream>
 #include <chrono>
 #include <sstream>
+#include <random>
 using std::cin;
 using std::cout;
 using std::endl;
 using std::fixed;
 using std::ifstream;
+using std::istringstream;
 using std::left;
+using std::mt19937;
+using std::ofstream;
+using std::random_device;
 using std::right;
 using std::setprecision;
 using std::setw;
 using std::sort;
 using std::string;
+using std::uniform_int_distribution;
 using std::vector;
 using std::chrono::duration;
 using std::chrono::high_resolution_clock;
@@ -54,7 +60,7 @@ public:
     }
 };
 
-void output(const vector<Studentas> &studentai, bool arMediana)
+void isvestis(const vector<Studentas> &studentai, bool arMediana)
 {
     cout << left << fixed << setprecision(2);
     if (arMediana)
@@ -99,7 +105,7 @@ void isvestisKonsole(const vector<Studentas> &studentai)
 
 void isvestisFailas(const vector<Studentas> &studentai)
 {
-    std::ofstream failas("isvestis.txt");
+    ofstream failas("isvestis.txt");
 
     failas
         << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)"
@@ -137,7 +143,7 @@ int gautiVidurkiMediana(const Studentas &studentas, int pazymiuSuma)
     }
 }
 
-void ranka(Studentas &studentas)
+void ivestisRanka(Studentas &studentas)
 {
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
@@ -323,15 +329,18 @@ void generuotiStudenta(Studentas &studentas)
         break;
     };
 
+    random_device rd;
+    mt19937 mt(rd());
+    uniform_int_distribution<int> dist(1, 10);
     namuDarbai = 5;
     studentas.namuDarbai = namuDarbai;
     for (int i = 0; i < namuDarbai; i++)
     {
-        int randPazymys = rand() % 10 + 1;
+        int randPazymys = dist(mt);
         studentas.pazymiai.push_back(randPazymys);
     }
 
-    int randBalas = rand() % 10 + 1;
+    int randBalas = dist(mt);
     studentas.egzaminoBalas = randBalas;
 }
 
@@ -340,15 +349,18 @@ void generuotiPazymius(Studentas &studentas)
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
+    random_device rd;
+    mt19937 mt(rd());
+    uniform_int_distribution<int> dist(1, 10);
     namuDarbai = 5;
     studentas.namuDarbai = namuDarbai;
     for (int i = 0; i < namuDarbai; i++)
     {
-        int randPazymys = rand() % 10 + 1;
+        int randPazymys = dist(mt);
         studentas.pazymiai.push_back(randPazymys);
     }
 
-    int randBalas = rand() % 10 + 1;
+    int randBalas = dist(mt);
     studentas.egzaminoBalas = randBalas;
 }
 
@@ -358,7 +370,7 @@ bool nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinima
     string antraste;
 
     getline(failas, antraste);
-    std::istringstream ss(antraste);
+    istringstream ss(antraste);
 
     string zodis;
     int zodziuSkaicius = 0;
@@ -456,6 +468,7 @@ int main()
     vector<Studentas> studentai;
     bool isFailo;
     int input;
+    Timer timer;
     namuDarbai = 0;
 
     do
@@ -475,7 +488,7 @@ int main()
         switch (input)
         {
         case 1:
-            ranka(studentas);
+            ivestisRanka(studentas);
             studentai.push_back(studentas);
             studentas = {};
             break;
@@ -492,15 +505,15 @@ int main()
         case 4:
         {
             // system("powershell (ls *.txt).Name");
+            timer.reset();
 
-            Timer t;
-            // isFailo = nuskaitytiFaila(studentai, "kursiokai.txt", 5);
-            isFailo = nuskaitytiFaila(studentai, "studentai10000.txt");
-            // isFailo = nuskaitytiFaila(studentai, "studentai100000.txt", 20);
-            // isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt", 7);
+            // isFailo = nuskaitytiFaila(studentai, "kursiokai.txt");
+            // isFailo = nuskaitytiFaila(studentai, "studentai10000.txt");
+            isFailo = nuskaitytiFaila(studentai, "studentai100000.txt");
+            // isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt");
 
             cout << fixed << setprecision(2);
-            cout << "Nuskaitymo laikas: " << t.elapsed() << " s" << endl;
+            cout << "Nuskaitymo laikas: " << timer.elapsed() << " s" << endl;
             break;
         }
         case 5:
@@ -516,22 +529,45 @@ int main()
         suskaiciuotiGalutinius(studentai);
         surusiuotiPagalPasirinkima(studentai);
 
-        Timer t;
-        isvestisFailas(studentai);
-        // isvestisKonsole(studentai);
-        cout << fixed << setprecision(2);
-        cout << "Output laikas: " << t.elapsed() << " s" << endl;
+        int input;
+        do
+        {
+            cout << "Pasirinkite isvedima (1 - Failas, 2 - Konsole):\n";
+            cin >> input;
+
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(1000, '\n');
+                cout << "Neteisingas pasirinkimas!\n";
+                input = 0;
+                continue;
+            }
+
+            switch (input)
+            {
+            case 1:
+                timer.reset();
+                isvestisFailas(studentai);
+
+                cout << fixed << setprecision(2);
+                cout << "Output laikas: " << timer.elapsed() << " s" << endl;
+                break;
+            case 2:
+                timer.reset();
+                isvestisKonsole(studentai);
+
+                cout << fixed << setprecision(2);
+                cout << "Output laikas: " << timer.elapsed() << " s" << endl;
+            default:
+                cout << "Neteisingas pasirinkimas!\n";
+                break;
+            }
+        } while (input != 1 && input != 2);
     }
     else
     {
         bool arMediana = suskaiciuotiGalutini(studentai);
-        output(studentai, arMediana);
+        isvestis(studentai, arMediana);
     }
 };
-
-// Isvedimas i faila +
-// atnaujinti rand pagal naujai kaip rode (generavime)
-// namudarbai dinamiskai skaityti is failo, o ne ranka ivesti +
-// +matuoti tik tas vietas kur nera user delay
-// failo nuskaityma patobulinti +
-// outputFile pataisyti name +
