@@ -250,9 +250,18 @@ void suskaiciuotiGalutinius(vector<Studentas> &studentai)
     }
 }
 
+int randomInt(int min, int max)
+{
+    random_device rd;
+    mt19937 mt(rd());
+    uniform_int_distribution<int> dist(min, max);
+
+    return dist(mt);
+}
+
 void generuotiStudenta(Studentas &studentas)
 {
-    switch (rand() % 10)
+    switch (randomInt(0, 9))
     {
     case 0:
         studentas.vardas = "Irma";
@@ -288,7 +297,7 @@ void generuotiStudenta(Studentas &studentas)
     switch (*studentas.vardas.rbegin())
     {
     case 's':
-        switch (rand() % 5)
+        switch (randomInt(0, 4))
         {
         case 0:
             studentas.pavarde = "Pavardenis1";
@@ -308,7 +317,7 @@ void generuotiStudenta(Studentas &studentas)
         }
         break;
     default:
-        switch (rand() % 5)
+        switch (randomInt(0, 4))
         {
         case 0:
             studentas.pavarde = "Pavardaite1";
@@ -329,18 +338,15 @@ void generuotiStudenta(Studentas &studentas)
         break;
     };
 
-    random_device rd;
-    mt19937 mt(rd());
-    uniform_int_distribution<int> dist(1, 10);
     namuDarbai = 5;
     studentas.namuDarbai = namuDarbai;
     for (int i = 0; i < namuDarbai; i++)
     {
-        int randPazymys = dist(mt);
+        int randPazymys = randomInt(1, 10);
         studentas.pazymiai.push_back(randPazymys);
     }
 
-    int randBalas = dist(mt);
+    int randBalas = randomInt(1, 10);
     studentas.egzaminoBalas = randBalas;
 }
 
@@ -349,18 +355,15 @@ void generuotiPazymius(Studentas &studentas)
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
-    random_device rd;
-    mt19937 mt(rd());
-    uniform_int_distribution<int> dist(1, 10);
     namuDarbai = 5;
     studentas.namuDarbai = namuDarbai;
     for (int i = 0; i < namuDarbai; i++)
     {
-        int randPazymys = dist(mt);
+        int randPazymys = randomInt(1, 10);
         studentas.pazymiai.push_back(randPazymys);
     }
 
-    int randBalas = dist(mt);
+    int randBalas = randomInt(1, 10);
     studentas.egzaminoBalas = randBalas;
 }
 
