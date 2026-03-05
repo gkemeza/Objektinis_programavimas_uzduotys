@@ -507,13 +507,12 @@ int main()
             break;
         case 4:
         {
-            // system("powershell (ls *.txt).Name");
             timer.reset();
 
             // isFailo = nuskaitytiFaila(studentai, "kursiokai.txt");
-            // isFailo = nuskaitytiFaila(studentai, "studentai10000.txt");
-            isFailo = nuskaitytiFaila(studentai, "studentai100000.txt");
-            // isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt");
+            isFailo = nuskaitytiFaila(studentai, "studentai10000.txt");
+            // isFailo = nuskaitytiFaila(studentai, "studentai100000.txt");
+            //  isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt");
 
             cout << fixed << setprecision(2);
             cout << "Nuskaitymo laikas: " << timer.elapsed() << " s" << endl;
