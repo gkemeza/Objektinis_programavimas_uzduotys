@@ -178,13 +178,13 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
             }
 
         } while (input != 1 && input != 2);
-
-        return false;
     }
     catch (const runtime_error &ex)
     {
         cerr << ex.what() << endl;
     }
+
+    return false;
 }
 
 void suskaiciuotiGalutinius(vector<Studentas> &studentai)
@@ -372,6 +372,8 @@ bool nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinima
     {
         cerr << "Klaida: " << ex.what() << endl;
     }
+
+    return false;
 }
 
 bool rusiuotiPagalVarda(const Studentas &a, const Studentas &b)
@@ -430,4 +432,41 @@ void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
             break;
         }
     } while (input != 1 && input != 2 && input != 3 && input != 4);
+}
+
+int skaitytiSkaiciu(const std::string &pranesimas, int min, int max)
+{
+    while (true)
+    {
+        try
+        {
+
+            cout << pranesimas;
+            string eilute;
+            cin >> eilute;
+
+            for (int i = 0; i < eilute.size(); i++)
+            {
+                if (i == 0 && eilute[i] == '-')
+                {
+                    continue;
+                }
+                if (!std::isdigit(eilute[i]))
+                {
+                    throw runtime_error("Klaida: ivestas ne sveikas skaicius.");
+                }
+            }
+
+            int reiksme = std::stoi(eilute);
+
+            if (reiksme < min || reiksme > max)
+                throw runtime_error("Klaida: skaicius turi buti nuo " + std::to_string(min) + " iki " + std::to_string(max) + ".");
+
+            return reiksme;
+        }
+        catch (const runtime_error &ex)
+        {
+            cerr << ex.what() << endl;
+        }
+    }
 }
