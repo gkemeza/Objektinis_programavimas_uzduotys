@@ -142,7 +142,7 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
         int input, semestroPazymiuSuma;
         do
         {
-            cout << "Pasirinkite galutinio balo skaiciavimo buda (1 - vidurkis, 2 - mediana):\n";
+            cout << "Galutinio balo skaiciavimo budas (1 - vidurkis, 2 - mediana):\n";
             cin >> input;
 
             if (cin.fail())
@@ -399,7 +399,7 @@ void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
     int input;
     do
     {
-        cout << "Pasirinkite pagal ka surusiuoti (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n";
+        cout << "Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n";
         cin >> input;
 
         if (cin.fail())
