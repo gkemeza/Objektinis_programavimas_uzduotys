@@ -78,6 +78,7 @@ int main()
 
             cout << fixed << setprecision(2);
             cout << "Output laikas: " << timer.elapsed() << " s" << endl;
+            break;
         default:
             cout << "Neteisingas pasirinkimas!\n";
             break;

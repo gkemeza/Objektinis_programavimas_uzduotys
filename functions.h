@@ -57,4 +57,5 @@ bool rusiuotiPagalPavarde(const Studentas &a, const Studentas &b);
 bool rusiuotiPagalGalutiniVidurki(const Studentas &a, const Studentas &b);
 bool rusiuotiPagalGalutiniMediana(const Studentas &a, const Studentas &b);
 void surusiuotiPagalPasirinkima(vector<Studentas> &studentai);
-int skaitytiSkaiciu(const std::string &pranesimas, int min, int max);
+int skaitytiSkaiciu(const string &pranesimas, int min, int max);
+string skaitytiZodi(const string &pranesimas);

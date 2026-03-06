@@ -87,8 +87,8 @@ void ivestisRanka(Studentas &studentas)
 {
     try
     {
-        cout << "Iveskite varda ir pavarde: ";
-        cin >> studentas.vardas >> studentas.pavarde;
+        studentas.vardas = skaitytiZodi("Iveskite varda: ");
+        studentas.pavarde = skaitytiZodi("Iveskite pavarde: ");
 
         int namuDarbai = skaitytiSkaiciu("Iveskite semestro pazymiu skaiciu: ", 1, 10);
 
@@ -278,8 +278,8 @@ void generuotiPazymius(Studentas &studentas)
 {
     try
     {
-        cout << "Iveskite varda ir pavarde: ";
-        cin >> studentas.vardas >> studentas.pavarde;
+        studentas.vardas = skaitytiZodi("Iveskite varda: ");
+        studentas.pavarde = skaitytiZodi("Iveskite pavarde: ");
 
         int namuDarbai = 5;
         studentas.namuDarbai = namuDarbai;
@@ -390,7 +390,7 @@ void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
     }
 }
 
-int skaitytiSkaiciu(const std::string &pranesimas, int min, int max)
+int skaitytiSkaiciu(const string &pranesimas, int min, int max)
 {
     while (true)
     {
@@ -418,6 +418,33 @@ int skaitytiSkaiciu(const std::string &pranesimas, int min, int max)
                 throw runtime_error("Klaida: skaicius turi buti nuo " + std::to_string(min) + " iki " + std::to_string(max) + ".");
 
             return reiksme;
+        }
+        catch (const runtime_error &ex)
+        {
+            cerr << ex.what() << endl;
+        }
+    }
+}
+
+string skaitytiZodi(const string &pranesimas)
+{
+    while (true)
+    {
+        try
+        {
+            cout << pranesimas;
+            string eilute;
+            cin >> eilute;
+
+            for (char c : eilute)
+            {
+                if (!std::isalpha(c))
+                {
+                    throw runtime_error("Klaida: ivestas zodis turi turėti tik raides.");
+                }
+            }
+
+            return eilute;
         }
         catch (const runtime_error &ex)
         {
