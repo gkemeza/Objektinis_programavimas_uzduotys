@@ -45,20 +45,30 @@ void isvestisKonsole(const vector<Studentas> &studentai)
 
 void isvestisFailas(const vector<Studentas> &studentai)
 {
-    ofstream failas("isvestis.txt");
-
-    failas
-        << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)"
-        << left << setw(20) << "Galutinis (Med.)" << endl;
-    failas << string(100, '-') << endl;
-
-    failas << left << fixed << setprecision(2);
-    for (const Studentas &studentas : studentai)
+    try
     {
-        failas << setw(20) << studentas.vardas
-               << setw(20) << studentas.pavarde
-               << setw(20) << studentas.galutinisVidurkis
-               << setw(20) << studentas.galutinisMediana << endl;
+        ofstream failas("isvestis.txt");
+
+        if (!failas.is_open())
+            throw runtime_error("Klaida: nepavyko atidaryti failo irasymui.");
+
+        failas
+            << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)"
+            << left << setw(20) << "Galutinis (Med.)" << "\n";
+        failas << string(100, '-') << "\n";
+
+        failas << left << fixed << setprecision(2);
+        for (const Studentas &studentas : studentai)
+        {
+            failas << setw(20) << studentas.vardas
+                   << setw(20) << studentas.pavarde
+                   << setw(20) << studentas.galutinisVidurkis
+                   << setw(20) << studentas.galutinisMediana << "\n";
+        }
+    }
+    catch (const runtime_error &ex)
+    {
+        cerr << ex.what() << "\n";
     }
 }
 
@@ -302,8 +312,16 @@ bool nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinima
 {
     try
     {
+        if (!exists(failoPavadinimas))
+            throw runtime_error("Failas nerastas: " + failoPavadinimas);
+
         ifstream failas(failoPavadinimas);
+        if (!failas.is_open())
+            throw runtime_error("Nepavyko atidaryti failo: " + failoPavadinimas);
+
         string antraste;
+        if (!getline(failas, antraste))
+            throw runtime_error("Failas tuscias: " + failoPavadinimas);
 
         getline(failas, antraste);
         istringstream ss(antraste);

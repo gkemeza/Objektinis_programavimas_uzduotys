@@ -9,6 +9,7 @@
 #include <sstream>
 #include <random>
 #include <stdexcept>
+#include <filesystem>
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -28,6 +29,7 @@ using std::sort;
 using std::string;
 using std::uniform_int_distribution;
 using std::vector;
+using std::filesystem::exists;
 
 struct Studentas
 {
