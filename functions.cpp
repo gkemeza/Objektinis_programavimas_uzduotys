@@ -1,64 +1,4 @@
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <cmath>
-#include <fstream>
-#include <chrono>
-#include <sstream>
-#include <random>
-using std::cin;
-using std::cout;
-using std::endl;
-using std::fixed;
-using std::ifstream;
-using std::istringstream;
-using std::left;
-using std::mt19937;
-using std::ofstream;
-using std::random_device;
-using std::right;
-using std::setprecision;
-using std::setw;
-using std::sort;
-using std::string;
-using std::uniform_int_distribution;
-using std::vector;
-using std::chrono::duration;
-using std::chrono::high_resolution_clock;
-using std::chrono::time_point;
-
-int namuDarbai = 0;
-
-struct Studentas
-{
-    string vardas = "A", pavarde = "B";
-    int namuDarbai = 0;
-    vector<int> pazymiai;
-    int egzaminoBalas = 0;
-    double galutinisVidurkis = 0;
-    double galutinisMediana = 0;
-};
-
-class Timer
-{
-    using hrClock = high_resolution_clock;
-
-private:
-    time_point<hrClock> start;
-
-public:
-    Timer() : start{hrClock::now()} {}
-    void reset()
-    {
-        start = hrClock::now();
-    }
-    double elapsed() const
-    {
-        return duration<double>(hrClock::now() - start).count();
-    }
-};
+#include "functions.h"
 
 void isvestis(const vector<Studentas> &studentai, bool arMediana)
 {
@@ -148,7 +88,7 @@ void ivestisRanka(Studentas &studentas)
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
-    int pazymys;
+    int pazymys, namuDarbai;
     do
     {
         cout << "Iveskite semestro pazymiu skaiciu: ";
@@ -338,7 +278,7 @@ void generuotiStudenta(Studentas &studentas)
         break;
     };
 
-    namuDarbai = 5;
+    int namuDarbai = 5;
     studentas.namuDarbai = namuDarbai;
     for (int i = 0; i < namuDarbai; i++)
     {
@@ -355,7 +295,7 @@ void generuotiPazymius(Studentas &studentas)
     cout << "Iveskite varda ir pavarde: ";
     cin >> studentas.vardas >> studentas.pavarde;
 
-    namuDarbai = 5;
+    int namuDarbai = 5;
     studentas.namuDarbai = namuDarbai;
     for (int i = 0; i < namuDarbai; i++)
     {
@@ -464,112 +404,3 @@ void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
         }
     } while (input != 1 && input != 2 && input != 3 && input != 4);
 }
-
-int main()
-{
-    Studentas studentas;
-    vector<Studentas> studentai;
-    bool isFailo;
-    int input;
-    Timer timer;
-    namuDarbai = 0;
-
-    do
-    {
-        cout << "Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - nuskaityti failą, 5 - baigti darbą):\n";
-        cin >> input;
-
-        if (cin.fail())
-        {
-            cin.clear();
-            cin.ignore(1000, '\n');
-            cout << "Neteisingas pasirinkimas!\n";
-            input = 0;
-            continue;
-        }
-
-        switch (input)
-        {
-        case 1:
-            ivestisRanka(studentas);
-            studentai.push_back(studentas);
-            studentas = {};
-            break;
-        case 2:
-            generuotiPazymius(studentas);
-            studentai.push_back(studentas);
-            studentas = {};
-            break;
-        case 3:
-            generuotiStudenta(studentas);
-            studentai.push_back(studentas);
-            studentas = {};
-            break;
-        case 4:
-        {
-            timer.reset();
-
-            // isFailo = nuskaitytiFaila(studentai, "kursiokai.txt");
-            isFailo = nuskaitytiFaila(studentai, "studentai10000.txt");
-            // isFailo = nuskaitytiFaila(studentai, "studentai100000.txt");
-            //  isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt");
-
-            cout << fixed << setprecision(2);
-            cout << "Nuskaitymo laikas: " << timer.elapsed() << " s" << endl;
-            break;
-        }
-        case 5:
-            break;
-        default:
-            cout << "Neteisingas pasirinkimas!\n";
-        }
-
-    } while (input != 4 && input != 5);
-
-    if (isFailo)
-    {
-        suskaiciuotiGalutinius(studentai);
-        surusiuotiPagalPasirinkima(studentai);
-
-        int input;
-        do
-        {
-            cout << "Pasirinkite isvedima (1 - Failas, 2 - Konsole):\n";
-            cin >> input;
-
-            if (cin.fail())
-            {
-                cin.clear();
-                cin.ignore(1000, '\n');
-                cout << "Neteisingas pasirinkimas!\n";
-                input = 0;
-                continue;
-            }
-
-            switch (input)
-            {
-            case 1:
-                timer.reset();
-                isvestisFailas(studentai);
-
-                cout << fixed << setprecision(2);
-                cout << "Output laikas: " << timer.elapsed() << " s" << endl;
-                break;
-            case 2:
-                timer.reset();
-                isvestisKonsole(studentai);
-
-                cout << fixed << setprecision(2);
-                cout << "Output laikas: " << timer.elapsed() << " s" << endl;
-            default:
-                cout << "Neteisingas pasirinkimas!\n";
-                break;
-            }
-        } while (input != 1 && input != 2);
-    }
-    else
-    {
-        bool arMediana = suskaiciuotiGalutini(studentai);
-        isvestis(studentai, arMediana);
-    }
-};
