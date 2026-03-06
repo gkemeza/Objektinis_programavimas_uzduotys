@@ -5,24 +5,24 @@ void isvestis(const vector<Studentas> &studentai, bool arMediana)
     cout << left << fixed << setprecision(2);
     if (arMediana)
     {
-        cout << setw(20) << "Pavarde" << setw(20) << "Vardas" << setw(20) << "Galutinis (Med.)" << endl;
-        cout << string(100, '-') << endl;
+        cout << setw(20) << "Pavarde" << setw(20) << "Vardas" << setw(20) << "Galutinis (Med.)" << "\n";
+        cout << string(100, '-') << "\n";
         for (const Studentas &studentas : studentai)
         {
             cout << setw(20) << studentas.pavarde
                  << setw(20) << studentas.vardas
-                 << setw(20) << studentas.galutinisMediana << endl;
+                 << setw(20) << studentas.galutinisMediana << "\n";
         }
     }
     else
     {
-        cout << setw(20) << "Pavarde" << setw(20) << "Vardas" << setw(20) << "Galutinis (Vid.)" << endl;
-        cout << string(100, '-') << endl;
+        cout << setw(20) << "Pavarde" << setw(20) << "Vardas" << setw(20) << "Galutinis (Vid.)" << "\n";
+        cout << string(100, '-') << "\n";
         for (const Studentas &studentas : studentai)
         {
             cout << setw(20) << studentas.pavarde
                  << setw(20) << studentas.vardas
-                 << setw(20) << studentas.galutinisVidurkis << endl;
+                 << setw(20) << studentas.galutinisVidurkis << "\n";
         }
     }
 }
@@ -30,8 +30,8 @@ void isvestis(const vector<Studentas> &studentai, bool arMediana)
 void isvestisKonsole(const vector<Studentas> &studentai)
 {
     cout << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)"
-         << left << setw(20) << "Galutinis (Med.)" << endl;
-    cout << string(100, '-') << endl;
+         << left << setw(20) << "Galutinis (Med.)" << "\n";
+    cout << string(100, '-') << "\n";
 
     cout << left << fixed << setprecision(2);
     for (const Studentas &studentas : studentai)
@@ -39,7 +39,7 @@ void isvestisKonsole(const vector<Studentas> &studentai)
         cout << setw(20) << studentas.vardas
              << setw(20) << studentas.pavarde
              << setw(20) << studentas.galutinisVidurkis
-             << setw(20) << studentas.galutinisMediana << endl;
+             << setw(20) << studentas.galutinisMediana << "\n";
     }
 }
 
@@ -358,7 +358,7 @@ bool nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinima
     }
     catch (const runtime_error &ex)
     {
-        cerr << "Klaida: " << ex.what() << endl;
+        cerr << "Klaida: " << ex.what() << "\n";
     }
 
     return false;
