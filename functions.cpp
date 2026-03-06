@@ -306,19 +306,26 @@ void generuotiStudenta(Studentas &studentas)
 
 void generuotiPazymius(Studentas &studentas)
 {
-    cout << "Iveskite varda ir pavarde: ";
-    cin >> studentas.vardas >> studentas.pavarde;
-
-    int namuDarbai = 5;
-    studentas.namuDarbai = namuDarbai;
-    for (int i = 0; i < namuDarbai; i++)
+    try
     {
-        int randPazymys = randomInt(1, 10);
-        studentas.pazymiai.push_back(randPazymys);
-    }
+        cout << "Iveskite varda ir pavarde: ";
+        cin >> studentas.vardas >> studentas.pavarde;
 
-    int randBalas = randomInt(1, 10);
-    studentas.egzaminoBalas = randBalas;
+        int namuDarbai = 5;
+        studentas.namuDarbai = namuDarbai;
+        for (int i = 0; i < namuDarbai; i++)
+        {
+            int randPazymys = randomInt(1, 10);
+            studentas.pazymiai.push_back(randPazymys);
+        }
+
+        int randBalas = randomInt(1, 10);
+        studentas.egzaminoBalas = randBalas;
+    }
+    catch (const runtime_error &ex)
+    {
+        cerr << ex.what() << endl;
+    }
 }
 
 bool nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinimas)
