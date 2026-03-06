@@ -39,11 +39,11 @@ int main()
                 // isFailo = nuskaitytiFaila(studentai, "Failai\\kursiokai.txt");
                 isFailo = nuskaitytiFaila(studentai, "Failai\\studentai10000.txt");
                 // isFailo = nuskaitytiFaila(studentai, "Failai\\studentai100000.txt");
-                //  isFailo = nuskaitytiFaila(studentai, "Failai\\studentai1000000.txt");
+                //  isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt");
             }
             catch (const runtime_error &ex)
             {
-                cerr << "Klaida: " << ex.what() << endl;
+                cerr << "Klaida: " << ex.what() << "\n";
             }
 
             cout << fixed << setprecision(2);
@@ -70,14 +70,14 @@ int main()
             isvestisFailas(studentai);
 
             cout << fixed << setprecision(2);
-            cout << "Output laikas: " << timer.elapsed() << " s" << endl;
+            cout << "Output laikas: " << timer.elapsed() << " s" << "\n";
             break;
         case 2:
             timer.reset();
             isvestisKonsole(studentai);
 
             cout << fixed << setprecision(2);
-            cout << "Output laikas: " << timer.elapsed() << " s" << endl;
+            cout << "Output laikas: " << timer.elapsed() << " s" << "\n";
             break;
         default:
             cout << "Neteisingas pasirinkimas!\n";
