@@ -85,35 +85,42 @@ int gautiVidurkiMediana(const Studentas &studentas, int pazymiuSuma)
 
 void ivestisRanka(Studentas &studentas)
 {
-    cout << "Iveskite varda ir pavarde: ";
-    cin >> studentas.vardas >> studentas.pavarde;
-
-    int pazymys, namuDarbai;
-    do
+    try
     {
-        cout << "Iveskite semestro pazymiu skaiciu: ";
-        cin >> namuDarbai;
-    } while (namuDarbai < 1);
+        cout << "Iveskite varda ir pavarde: ";
+        cin >> studentas.vardas >> studentas.pavarde;
 
-    for (int i = 0; i < namuDarbai; i++)
-    {
+        int pazymys, namuDarbai;
         do
         {
-            cout << "Iveskite " << i + 1 << " pazymi is " << namuDarbai << ": ";
+            cout << "Iveskite semestro pazymiu skaiciu: ";
+            cin >> namuDarbai;
+        } while (namuDarbai < 1);
+
+        for (int i = 0; i < namuDarbai; i++)
+        {
+            do
+            {
+                cout << "Iveskite " << i + 1 << " pazymi is " << namuDarbai << ": ";
+                cin >> pazymys;
+            } while (pazymys < 1 || pazymys > 10);
+
+            studentas.pazymiai.push_back(pazymys);
+        }
+
+        do
+        {
+            cout << "Iveskite egzamino pazymi: ";
             cin >> pazymys;
         } while (pazymys < 1 || pazymys > 10);
 
-        studentas.pazymiai.push_back(pazymys);
+        studentas.egzaminoBalas = pazymys;
+        studentas.namuDarbai = namuDarbai;
     }
-
-    do
+    catch (const runtime_error &ex)
     {
-        cout << "Iveskite egzamino pazymi: ";
-        cin >> pazymys;
-    } while (pazymys < 1 || pazymys > 10);
-
-    studentas.egzaminoBalas = pazymys;
-    studentas.namuDarbai = namuDarbai;
+        cerr << ex.what() << endl;
+    }
 }
 
 int gautiPazymiuSuma(const Studentas &studentas)
@@ -129,48 +136,55 @@ int gautiPazymiuSuma(const Studentas &studentas)
 
 bool suskaiciuotiGalutini(vector<Studentas> &studentai)
 {
-    double vidurkis;
-    int input, semestroPazymiuSuma;
-    do
+    try
     {
-        cout << "Pasirinkite galutinio balo skaiciavimo buda (1 - vidurkis, 2 - mediana):\n";
-        cin >> input;
-
-        if (cin.fail())
+        double vidurkis;
+        int input, semestroPazymiuSuma;
+        do
         {
-            cin.clear();
-            cin.ignore(1000, '\n');
-            cout << "Neteisingas pasirinkimas!\n";
-            input = 0;
-            continue;
-        }
+            cout << "Pasirinkite galutinio balo skaiciavimo buda (1 - vidurkis, 2 - mediana):\n";
+            cin >> input;
 
-        switch (input)
-        {
-        case 1:
-            for (Studentas &studentas : studentai)
+            if (cin.fail())
             {
-                semestroPazymiuSuma = gautiPazymiuSuma(studentas);
-                vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
-                studentas.galutinisVidurkis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                cout << "Neteisingas pasirinkimas!\n";
+                input = 0;
+                continue;
             }
-            return false;
-        case 2:
-            for (Studentas &studentas : studentai)
+
+            switch (input)
             {
-                sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
-                semestroPazymiuSuma = gautiPazymiuSuma(studentas);
-                vidurkis = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
-                studentas.galutinisMediana = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+            case 1:
+                for (Studentas &studentas : studentai)
+                {
+                    semestroPazymiuSuma = gautiPazymiuSuma(studentas);
+                    vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
+                    studentas.galutinisVidurkis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+                }
+                return false;
+            case 2:
+                for (Studentas &studentas : studentai)
+                {
+                    sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+                    semestroPazymiuSuma = gautiPazymiuSuma(studentas);
+                    vidurkis = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
+                    studentas.galutinisMediana = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
+                }
+                return true;
+            default:
+                cout << "Neteisingas pasirinkimas!\n";
             }
-            return true;
-        default:
-            cout << "Neteisingas pasirinkimas!\n";
-        }
 
-    } while (input != 1 && input != 2);
+        } while (input != 1 && input != 2);
 
-    return false;
+        return false;
+    }
+    catch (const runtime_error &ex)
+    {
+        cerr << ex.what() << endl;
+    }
 }
 
 void suskaiciuotiGalutinius(vector<Studentas> &studentai)
@@ -309,42 +323,48 @@ void generuotiPazymius(Studentas &studentas)
 
 bool nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinimas)
 {
-    ifstream failas(failoPavadinimas);
-    string antraste;
-
-    getline(failas, antraste);
-    istringstream ss(antraste);
-
-    string zodis;
-    int zodziuSkaicius = 0;
-    while (ss >> zodis)
+    try
     {
-        zodziuSkaicius++;
-    }
+        ifstream failas(failoPavadinimas);
+        string antraste;
 
-    int namuDarbai = zodziuSkaicius - 3;
+        getline(failas, antraste);
+        istringstream ss(antraste);
 
-    Studentas studentas;
-    string vardas, pavarde;
-    while (failas >> vardas >> pavarde)
-    {
-        studentas.pazymiai.clear();
-        studentas.namuDarbai = namuDarbai;
-        studentas.vardas = vardas;
-        studentas.pavarde = pavarde;
-
-        for (int i = 0; i < namuDarbai; i++)
+        string zodis;
+        int zodziuSkaicius = 0;
+        while (ss >> zodis)
         {
-            int pazymys;
-            failas >> pazymys;
-            studentas.pazymiai.push_back(pazymys);
+            zodziuSkaicius++;
         }
 
-        failas >> studentas.egzaminoBalas;
-        studentai.push_back(studentas);
-    }
+        int namuDarbai = zodziuSkaicius - 3;
 
-    return true;
+        Studentas studentas;
+        string vardas, pavarde;
+        while (failas >> vardas >> pavarde)
+        {
+            studentas.pazymiai.clear();
+            studentas.namuDarbai = namuDarbai;
+            studentas.vardas = vardas;
+            studentas.pavarde = pavarde;
+
+            for (int i = 0; i < namuDarbai; i++)
+            {
+                int pazymys;
+                failas >> pazymys;
+                studentas.pazymiai.push_back(pazymys);
+            }
+
+            failas >> studentas.egzaminoBalas;
+            studentai.push_back(studentas);
+        }
+        return true;
+    }
+    catch (const runtime_error &ex)
+    {
+        cerr << "Klaida: " << ex.what() << endl;
+    }
 }
 
 bool rusiuotiPagalVarda(const Studentas &a, const Studentas &b)
