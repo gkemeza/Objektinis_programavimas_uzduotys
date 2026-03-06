@@ -44,10 +44,17 @@ int main()
         {
             timer.reset();
 
-            // isFailo = nuskaitytiFaila(studentai, "Failai\\kursiokai.txt");
-            isFailo = nuskaitytiFaila(studentai, "Failai\\studentai10000.txt");
-            // isFailo = nuskaitytiFaila(studentai, "Failai\\studentai100000.txt");
-            //  isFailo = nuskaitytiFaila(studentai, "Failai\\studentai1000000.txt");
+            try
+            {
+                // isFailo = nuskaitytiFaila(studentai, "Failai\\kursiokai.txt");
+                isFailo = nuskaitytiFaila(studentai, "Failai\\studentai10000.txt");
+                // isFailo = nuskaitytiFaila(studentai, "Failai\\studentai100000.txt");
+                //  isFailo = nuskaitytiFaila(studentai, "Failai\\studentai1000000.txt");
+            }
+            catch (const runtime_error &ex)
+            {
+                cerr << "Klaida: " << ex.what() << endl;
+            }
 
             cout << fixed << setprecision(2);
             cout << "Nuskaitymo laikas: " << timer.elapsed() << " s" << endl;
