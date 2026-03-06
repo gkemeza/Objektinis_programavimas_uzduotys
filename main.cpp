@@ -11,17 +11,7 @@ int main()
 
     do
     {
-        cout << "Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - nuskaityti failą, 5 - baigti darbą):\n";
-        cin >> input;
-
-        if (cin.fail())
-        {
-            cin.clear();
-            cin.ignore(1000, '\n');
-            cout << "Neteisingas pasirinkimas!\n";
-            input = 0;
-            continue;
-        }
+        input = skaitytiSkaiciu("Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - nuskaityti failą, 5 - baigti darbą):\n", 1, 5);
 
         switch (input)
         {
@@ -65,53 +55,37 @@ int main()
         default:
             cout << "Neteisingas pasirinkimas!\n";
         }
-
     } while (input != 4 && input != 5);
-
     if (isFailo)
     {
         suskaiciuotiGalutinius(studentai);
         surusiuotiPagalPasirinkima(studentai);
 
-        int input;
-        do
+        int input = skaitytiSkaiciu("Pasirinkite isvedima (1 - Failas, 2 - Konsole):\n", 1, 2);
+
+        switch (input)
         {
-            cout << "Pasirinkite isvedima (1 - Failas, 2 - Konsole):\n";
-            cin >> input;
+        case 1:
+            timer.reset();
+            isvestisFailas(studentai);
 
-            if (cin.fail())
-            {
-                cin.clear();
-                cin.ignore(1000, '\n');
-                cout << "Neteisingas pasirinkimas!\n";
-                input = 0;
-                continue;
-            }
+            cout << fixed << setprecision(2);
+            cout << "Output laikas: " << timer.elapsed() << " s" << endl;
+            break;
+        case 2:
+            timer.reset();
+            isvestisKonsole(studentai);
 
-            switch (input)
-            {
-            case 1:
-                timer.reset();
-                isvestisFailas(studentai);
-
-                cout << fixed << setprecision(2);
-                cout << "Output laikas: " << timer.elapsed() << " s" << endl;
-                break;
-            case 2:
-                timer.reset();
-                isvestisKonsole(studentai);
-
-                cout << fixed << setprecision(2);
-                cout << "Output laikas: " << timer.elapsed() << " s" << endl;
-            default:
-                cout << "Neteisingas pasirinkimas!\n";
-                break;
-            }
-        } while (input != 1 && input != 2);
+            cout << fixed << setprecision(2);
+            cout << "Output laikas: " << timer.elapsed() << " s" << endl;
+        default:
+            cout << "Neteisingas pasirinkimas!\n";
+            break;
+        }
     }
     else
     {
         bool arMediana = suskaiciuotiGalutini(studentai);
         isvestis(studentai, arMediana);
-    }
-};
+    };
+}

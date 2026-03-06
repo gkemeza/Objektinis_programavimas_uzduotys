@@ -90,29 +90,17 @@ void ivestisRanka(Studentas &studentas)
         cout << "Iveskite varda ir pavarde: ";
         cin >> studentas.vardas >> studentas.pavarde;
 
-        int pazymys, namuDarbai;
-        do
-        {
-            cout << "Iveskite semestro pazymiu skaiciu: ";
-            cin >> namuDarbai;
-        } while (namuDarbai < 1);
+        int namuDarbai = skaitytiSkaiciu("Iveskite semestro pazymiu skaiciu: ", 1, 10);
 
         for (int i = 0; i < namuDarbai; i++)
         {
-            do
-            {
-                cout << "Iveskite " << i + 1 << " pazymi is " << namuDarbai << ": ";
-                cin >> pazymys;
-            } while (pazymys < 1 || pazymys > 10);
+            cout << "Iveskite " << i + 1 << " pazymi is " << namuDarbai << ": ";
+            int pazymys = skaitytiSkaiciu("", 1, 10);
 
             studentas.pazymiai.push_back(pazymys);
         }
 
-        do
-        {
-            cout << "Iveskite egzamino pazymi: ";
-            cin >> pazymys;
-        } while (pazymys < 1 || pazymys > 10);
+        int pazymys = skaitytiSkaiciu("Iveskite egzamino pazymi: ", 1, 10);
 
         studentas.egzaminoBalas = pazymys;
         studentas.namuDarbai = namuDarbai;
@@ -138,46 +126,30 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
 {
     try
     {
-        double vidurkis;
-        int input, semestroPazymiuSuma;
-        do
+        int input = skaitytiSkaiciu("Galutinio balo skaiciavimo budas (1 - vidurkis, 2 - mediana):\n", 1, 2);
+
+        switch (input)
         {
-            cout << "Galutinio balo skaiciavimo budas (1 - vidurkis, 2 - mediana):\n";
-            cin >> input;
-
-            if (cin.fail())
+        case 1:
+            for (Studentas &studentas : studentai)
             {
-                cin.clear();
-                cin.ignore(1000, '\n');
-                cout << "Neteisingas pasirinkimas!\n";
-                input = 0;
-                continue;
+                int semestroPazymiuSuma = gautiPazymiuSuma(studentas);
+                double vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
+                studentas.galutinisVidurkis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
             }
-
-            switch (input)
+            return false;
+        case 2:
+            for (Studentas &studentas : studentai)
             {
-            case 1:
-                for (Studentas &studentas : studentai)
-                {
-                    semestroPazymiuSuma = gautiPazymiuSuma(studentas);
-                    vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
-                    studentas.galutinisVidurkis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
-                }
-                return false;
-            case 2:
-                for (Studentas &studentas : studentai)
-                {
-                    sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
-                    semestroPazymiuSuma = gautiPazymiuSuma(studentas);
-                    vidurkis = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
-                    studentas.galutinisMediana = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
-                }
-                return true;
-            default:
-                cout << "Neteisingas pasirinkimas!\n";
+                sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+                int semestroPazymiuSuma = gautiPazymiuSuma(studentas);
+                double vidurkis = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
+                studentas.galutinisMediana = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
             }
-
-        } while (input != 1 && input != 2);
+            return true;
+        default:
+            cout << "Neteisingas pasirinkimas!\n";
+        }
     }
     catch (const runtime_error &ex)
     {
@@ -189,17 +161,15 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
 
 void suskaiciuotiGalutinius(vector<Studentas> &studentai)
 {
-    double vidurkis, mediana;
-    int semestroPazymiuSuma;
     for (Studentas &studentas : studentai)
     {
-        semestroPazymiuSuma = gautiPazymiuSuma(studentas);
+        int semestroPazymiuSuma = gautiPazymiuSuma(studentas);
 
-        vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
+        double vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
         studentas.galutinisVidurkis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
 
         sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
-        mediana = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
+        double mediana = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
         studentas.galutinisMediana = mediana * 0.4 + studentas.egzaminoBalas * 0.6;
     }
 }
@@ -398,40 +368,26 @@ bool rusiuotiPagalMediana(const Studentas &a, const Studentas &b)
 
 void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
 {
-    int input;
-    do
+    int input = skaitytiSkaiciu("Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n", 1, 4);
+
+    switch (input)
     {
-        cout << "Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n";
-        cin >> input;
-
-        if (cin.fail())
-        {
-            cin.clear();
-            cin.ignore(1000, '\n');
-            cout << "Neteisingas pasirinkimas!\n";
-            input = 0;
-            continue;
-        }
-
-        switch (input)
-        {
-        case 1:
-            sort(studentai.begin(), studentai.end(), rusiuotiPagalVarda);
-            break;
-        case 2:
-            sort(studentai.begin(), studentai.end(), rusiuotiPagalPavarde);
-            break;
-        case 3:
-            sort(studentai.begin(), studentai.end(), rusiuotiPagalVidurki);
-            break;
-        case 4:
-            sort(studentai.begin(), studentai.end(), rusiuotiPagalMediana);
-            break;
-        default:
-            cout << "Neteisingas pasirinkimas!\n";
-            break;
-        }
-    } while (input != 1 && input != 2 && input != 3 && input != 4);
+    case 1:
+        sort(studentai.begin(), studentai.end(), rusiuotiPagalVarda);
+        break;
+    case 2:
+        sort(studentai.begin(), studentai.end(), rusiuotiPagalPavarde);
+        break;
+    case 3:
+        sort(studentai.begin(), studentai.end(), rusiuotiPagalVidurki);
+        break;
+    case 4:
+        sort(studentai.begin(), studentai.end(), rusiuotiPagalMediana);
+        break;
+    default:
+        cout << "Neteisingas pasirinkimas!\n";
+        break;
+    }
 }
 
 int skaitytiSkaiciu(const std::string &pranesimas, int min, int max)
@@ -440,7 +396,6 @@ int skaitytiSkaiciu(const std::string &pranesimas, int min, int max)
     {
         try
         {
-
             cout << pranesimas;
             string eilute;
             cin >> eilute;
