@@ -1,5 +1,5 @@
-#include "functions.h"
-#include "timer.h"
+#include "../include/functions.h"
+#include "../include/timer.h"
 
 int main()
 {

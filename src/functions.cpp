@@ -1,4 +1,4 @@
-#include "functions.h"
+#include "../include/functions.h"
 
 void isvestis(const vector<Studentas> &studentai, bool arMediana)
 {

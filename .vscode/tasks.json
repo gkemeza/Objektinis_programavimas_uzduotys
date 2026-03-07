@@ -7,7 +7,7 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}\\*.cpp",
+                "${workspaceFolder}\\src\\*.cpp",
                 "-std=c++17",
                 "-o",
                 "${workspaceFolder}\\${workspaceFolderBasename}.exe"
