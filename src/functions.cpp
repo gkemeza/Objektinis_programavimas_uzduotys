@@ -1,5 +1,26 @@
 #include "../include/functions.h"
 
+using std::cerr;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::fixed;
+using std::ifstream;
+using std::istringstream;
+using std::left;
+using std::mt19937;
+using std::ofstream;
+using std::random_device;
+using std::right;
+using std::runtime_error;
+using std::setprecision;
+using std::setw;
+using std::sort;
+using std::string;
+using std::uniform_int_distribution;
+using std::vector;
+using std::filesystem::exists;
+
 void isvestis(const vector<Studentas> &studentai, bool arMediana)
 {
     cout << left << fixed << setprecision(2);

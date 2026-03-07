@@ -1,6 +1,14 @@
 #include "../include/functions.h"
 #include "../include/timer.h"
 
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::fixed;
+using std::runtime_error;
+using std::setprecision;
+using std::vector;
+
 int main()
 {
     Studentas studentas;
