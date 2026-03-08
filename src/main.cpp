@@ -44,9 +44,9 @@ int main()
 
             try
             {
-                // isFailo = nuskaitytiFaila(studentai, "Failai\\kursiokai.txt");
-                isFailo = nuskaitytiFaila(studentai, "Failai\\studentai10000.txt");
-                // isFailo = nuskaitytiFaila(studentai, "Failai\\studentai100000.txt");
+                // isFailo = nuskaitytiFaila(studentai, "data\\kursiokai.txt");
+                // isFailo = nuskaitytiFaila(studentai, "data\\studentai10000.txt");
+                isFailo = nuskaitytiFaila(studentai, "data\\studentai100000.txt");
                 //  isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt");
             }
             catch (const runtime_error &ex)
