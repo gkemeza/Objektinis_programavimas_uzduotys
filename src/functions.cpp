@@ -1,4 +1,5 @@
 #include "../include/functions.h"
+#include "../include/timer.h"
 
 using std::cerr;
 using std::cin;
@@ -499,7 +500,11 @@ string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
 
     try
     {
+        Timer timer;
         ofstream failas("..\\generatedData\\" + failoPavadinimas + ".txt");
+
+        if (!failas.is_open())
+            throw runtime_error("Klaida: nepavyko atidaryti failo irasymui.");
 
         failas << left;
         failas << setw(20) << "Vardas" << setw(20) << "Pavarde";
@@ -521,6 +526,11 @@ string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
             }
             failas << setw(10) << randomInt(1, 10) << "\n";
         }
+
+        failas.close();
+
+        cout << fixed << setprecision(2);
+        cout << "Failo sukurimo laikas: " << timer.elapsed() << " s" << endl;
     }
     catch (const runtime_error &ex)
     {
@@ -542,11 +552,17 @@ void failuGeneravimas()
     if (arPadalinti)
     {
         vector<Studentas> studentai;
+        Timer timer;
+
         nuskaitytiFaila(studentai, "..\\generatedData\\" + failoPavadinimas + ".txt");
+        cout << fixed << setprecision(2);
+        cout << "Duomenu nuskaitymo is failo laikas: " << timer.elapsed() << " s" << endl;
+
         suskaiciuotiGalutinius(studentai);
 
         vector<Studentas> vargsiukai;
         vector<Studentas> kietiakai;
+        timer.reset();
         for (const Studentas &studentas : studentai)
         {
             if (studentas.galutinisVidurkis < 5 && studentas.galutinisMediana < 5)
@@ -558,11 +574,16 @@ void failuGeneravimas()
                 kietiakai.push_back(studentas);
             }
         }
+        cout << fixed << setprecision(2);
+        cout << "Studentu rusiavimo i dvi grupes laikas: " << timer.elapsed() << " s" << endl;
 
         surusiuotiPagalPasirinkima(vargsiukai);
         surusiuotiPagalPasirinkima(kietiakai);
 
+        timer.reset();
         isvestisFailas(vargsiukai, failoPavadinimas + "_vargsiukai.txt");
         isvestisFailas(kietiakai, failoPavadinimas + "_kietiakai.txt");
+        cout << fixed << setprecision(2);
+        cout << "Studentu isvedimo i du naujus failus laikas: " << timer.elapsed() << " s" << endl;
     }
 }

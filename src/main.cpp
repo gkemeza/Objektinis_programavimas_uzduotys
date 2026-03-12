@@ -11,11 +11,12 @@ using std::vector;
 
 int main()
 {
+    Timer timer;
     Studentas studentas;
     vector<Studentas> studentai;
-    bool isFailo;
+    bool isFailo, pridetiStudentai;
+    ;
     int input;
-    Timer timer;
 
     do
     {
@@ -27,16 +28,19 @@ int main()
             ivestisRanka(studentas);
             studentai.push_back(studentas);
             studentas = {};
+            pridetiStudentai = true;
             break;
         case 2:
             generuotiPazymius(studentas);
             studentai.push_back(studentas);
             studentas = {};
+            pridetiStudentai = true;
             break;
         case 3:
             generuotiStudenta(studentas);
             studentai.push_back(studentas);
             studentas = {};
+            pridetiStudentai = true;
             break;
         case 4:
         {
@@ -78,27 +82,22 @@ int main()
         switch (input)
         {
         case 1:
-            timer.reset();
             isvestisFailas(studentai, "isvestis.txt");
-
-            cout << fixed << setprecision(2);
-            cout << "Output laikas: " << timer.elapsed() << " s" << "\n";
             break;
         case 2:
-            timer.reset();
             isvestisKonsole(studentai);
-
-            cout << fixed << setprecision(2);
-            cout << "Output laikas: " << timer.elapsed() << " s" << "\n";
             break;
         default:
             cout << "Neteisingas pasirinkimas!\n";
             break;
         }
     }
-    else
+    else if (pridetiStudentai)
     {
         bool arMediana = suskaiciuotiGalutini(studentai);
         isvestis(studentai, arMediana);
     };
+
+    cout << fixed << setprecision(2);
+    cout << "Visos programos veikimo laikas: " << timer.elapsed() << " s" << endl;
 }
