@@ -59,7 +59,7 @@ int main()
             break;
         }
         case 5:
-            generuotiFaila(100, 5);
+            failuGeneravimas();
             break;
         case 6:
             break;

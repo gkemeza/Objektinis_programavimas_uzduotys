@@ -525,3 +525,13 @@ void generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
         cerr << "Klaida: " << ex.what() << "\n";
     }
 }
+
+void failuGeneravimas()
+{
+    int studentuSkaicius = skaitytiSkaiciu("Iveskite studentu skaiciu (1 - 10 000 000):\n", 1, 10000000);
+    int namuDarbuSkaicius = skaitytiSkaiciu("Iveskite namu darbu skaiciu (1 - 100):\n", 1, 100);
+
+    generuotiFaila(studentuSkaicius, namuDarbuSkaicius);
+
+    bool arRusiuoti = skaitytiSkaiciu("Ar norite surusiuoti studentus? (1 - Taip, 2 - Ne):\n", 1, 2) == 1;
+}

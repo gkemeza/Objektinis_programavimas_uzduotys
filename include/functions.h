@@ -42,3 +42,4 @@ void surusiuotiPagalPasirinkima(std::vector<Studentas> &studentai);
 int skaitytiSkaiciu(const std::string &pranesimas, int min, int max);
 std::string skaitytiZodi(const std::string &pranesimas);
 void generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius);
+void failuGeneravimas();
