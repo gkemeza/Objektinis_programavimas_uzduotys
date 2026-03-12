@@ -10,6 +10,7 @@ build/
 # Input/output data files
 isvestis.txt
 studentai1000000.txt
+generatedData/
 
 # Local scripts
 run.bat

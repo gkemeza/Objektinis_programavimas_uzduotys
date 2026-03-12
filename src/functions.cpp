@@ -17,6 +17,7 @@ using std::setprecision;
 using std::setw;
 using std::sort;
 using std::string;
+using std::to_string;
 using std::uniform_int_distribution;
 using std::vector;
 using std::filesystem::exists;
@@ -445,22 +446,22 @@ int skaitytiSkaiciu(const string &pranesimas, int min, int max)
                 {
                     continue;
                 }
-                if (!std::isdigit(eilute[i]))
+                if (!isdigit(eilute[i]))
                 {
                     throw runtime_error("Klaida: ivestas ne sveikas skaicius.");
                 }
             }
 
-            int reiksme = std::stoi(eilute);
+            int reiksme = stoi(eilute);
 
             if (reiksme < min || reiksme > max)
-                throw runtime_error("Klaida: skaicius turi buti nuo " + std::to_string(min) + " iki " + std::to_string(max) + ".");
+                throw runtime_error("Klaida: skaicius turi buti nuo " + to_string(min) + " iki " + to_string(max) + ".");
 
             return reiksme;
         }
         catch (const runtime_error &ex)
         {
-            cerr << ex.what() << endl;
+            cerr << "Klaida: " << ex.what() << "\n";
         }
     }
 }
@@ -477,7 +478,7 @@ string skaitytiZodi(const string &pranesimas)
 
             for (char c : eilute)
             {
-                if (!std::isalpha(c))
+                if (!isalpha(c))
                 {
                     throw runtime_error("Klaida: ivestas zodis turi turėti tik raides.");
                 }
@@ -487,7 +488,40 @@ string skaitytiZodi(const string &pranesimas)
         }
         catch (const runtime_error &ex)
         {
-            cerr << ex.what() << endl;
+            cerr << "Klaida: " << ex.what() << "\n";
         }
+    }
+}
+
+void generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
+{
+    try
+    {
+        ofstream failas("..\\generatedData\\studentai" + to_string(studentuSkaicius) + ".txt");
+
+        failas << left;
+        failas << setw(20) << "Vardas" << setw(20) << "Pavarde";
+        for (int i = 1; i <= namuDarbuSkaicius; i++)
+        {
+            failas << right;
+            failas << setw(10) << "ND" + to_string(i);
+        }
+        failas << setw(10) << " Egz." << "\n";
+
+        for (int i = 0; i < studentuSkaicius; i++)
+        {
+            failas << left;
+            failas << setw(20) << "VardasNR" + to_string(i + 1) << setw(20) << "PavardeNR" + to_string(i + 1);
+            failas << right;
+            for (int j = 0; j < namuDarbuSkaicius; j++)
+            {
+                failas << setw(10) << randomInt(1, 10);
+            }
+            failas << setw(10) << randomInt(1, 10) << "\n";
+        }
+    }
+    catch (const runtime_error &ex)
+    {
+        cerr << "Klaida: " << ex.what() << "\n";
     }
 }

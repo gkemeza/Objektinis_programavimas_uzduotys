@@ -19,7 +19,7 @@ int main()
 
     do
     {
-        input = skaitytiSkaiciu("Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - nuskaityti failą, 5 - baigti darbą):\n", 1, 5);
+        input = skaitytiSkaiciu("Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - nuskaityti failą, 5 - generuoti faila, 6 - baigti darbą):\n", 1, 6);
 
         switch (input)
         {
@@ -59,11 +59,15 @@ int main()
             break;
         }
         case 5:
+            generuotiFaila(100, 5);
+            break;
+        case 6:
             break;
         default:
             cout << "Neteisingas pasirinkimas!\n";
         }
-    } while (input != 4 && input != 5);
+    } while (input != 4 && input != 6);
+
     if (isFailo)
     {
         suskaiciuotiGalutinius(studentai);
