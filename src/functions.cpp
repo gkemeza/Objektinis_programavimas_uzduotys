@@ -407,10 +407,8 @@ bool rusiuotiPagalMediana(const Studentas &a, const Studentas &b)
     return a.galutinisMediana < b.galutinisMediana;
 }
 
-void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
+void rusiuotiStudentus(vector<Studentas> &studentai, int input)
 {
-    int input = skaitytiSkaiciu("Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n", 1, 4);
-
     switch (input)
     {
     case 1:
@@ -429,6 +427,13 @@ void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
         cout << "Neteisingas pasirinkimas!\n";
         break;
     }
+}
+
+void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
+{
+    int input = skaitytiSkaiciu("Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n", 1, 4);
+
+    rusiuotiStudentus(studentai, input);
 }
 
 int skaitytiSkaiciu(const string &pranesimas, int min, int max)
@@ -577,8 +582,9 @@ void failuGeneravimas()
         cout << fixed << setprecision(2);
         cout << "Studentu rusiavimo i dvi grupes laikas: " << timer.elapsed() << " s" << endl;
 
-        surusiuotiPagalPasirinkima(vargsiukai);
-        surusiuotiPagalPasirinkima(kietiakai);
+        int input = skaitytiSkaiciu("Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n", 1, 4);
+        rusiuotiStudentus(vargsiukai, input);
+        rusiuotiStudentus(kietiakai, input);
 
         timer.reset();
         isvestisFailas(vargsiukai, failoPavadinimas + "_vargsiukai.txt");

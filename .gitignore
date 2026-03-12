@@ -12,6 +12,7 @@ isvestis.txt
 studentai1000000.txt
 generatedData/
 outputData/
+archive/
 
 # Local scripts
 run.bat
