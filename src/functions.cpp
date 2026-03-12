@@ -543,13 +543,13 @@ void failuGeneravimas()
     {
         vector<Studentas> studentai;
         nuskaitytiFaila(studentai, "..\\generatedData\\" + failoPavadinimas + ".txt");
-        suskaiciuotiGalutini(studentai);
+        suskaiciuotiGalutinius(studentai);
 
         vector<Studentas> vargsiukai;
         vector<Studentas> kietiakai;
         for (const Studentas &studentas : studentai)
         {
-            if (studentas.galutinisVidurkis < 5)
+            if (studentas.galutinisVidurkis < 5 && studentas.galutinisMediana < 5)
             {
                 vargsiukai.push_back(studentas);
             }
@@ -558,6 +558,9 @@ void failuGeneravimas()
                 kietiakai.push_back(studentas);
             }
         }
+
+        surusiuotiPagalPasirinkima(vargsiukai);
+        surusiuotiPagalPasirinkima(kietiakai);
 
         isvestisFailas(vargsiukai, failoPavadinimas + "_vargsiukai.txt");
         isvestisFailas(kietiakai, failoPavadinimas + "_kietiakai.txt");
