@@ -23,7 +23,7 @@ struct Studentas
 
 void isvestis(const std::vector<Studentas> &studentai, bool arMediana);
 void isvestisKonsole(const std::vector<Studentas> &studentai);
-void isvestisFailas(const std::vector<Studentas> &studentai);
+void isvestisFailas(const std::vector<Studentas> &studentai, std::string failoPavadinimas);
 double gautiVidurkiVidutini(const Studentas &studentas, int pazymiuSuma);
 int gautiVidurkiMediana(const Studentas &studentas, int pazymiuSuma);
 void ivestisRanka(Studentas &studentas);
@@ -41,5 +41,5 @@ bool rusiuotiPagalGalutiniMediana(const Studentas &a, const Studentas &b);
 void surusiuotiPagalPasirinkima(std::vector<Studentas> &studentai);
 int skaitytiSkaiciu(const std::string &pranesimas, int min, int max);
 std::string skaitytiZodi(const std::string &pranesimas);
-void generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius);
+std::string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius);
 void failuGeneravimas();

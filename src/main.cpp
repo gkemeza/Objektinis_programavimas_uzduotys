@@ -79,7 +79,7 @@ int main()
         {
         case 1:
             timer.reset();
-            isvestisFailas(studentai);
+            isvestisFailas(studentai, "isvestis.txt");
 
             cout << fixed << setprecision(2);
             cout << "Output laikas: " << timer.elapsed() << " s" << "\n";

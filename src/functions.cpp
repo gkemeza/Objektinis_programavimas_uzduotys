@@ -65,11 +65,11 @@ void isvestisKonsole(const vector<Studentas> &studentai)
     }
 }
 
-void isvestisFailas(const vector<Studentas> &studentai)
+void isvestisFailas(const vector<Studentas> &studentai, string failoPavadinimas)
 {
     try
     {
-        ofstream failas("isvestis.txt");
+        ofstream failas("..\\outputData\\" + failoPavadinimas);
 
         if (!failas.is_open())
             throw runtime_error("Klaida: nepavyko atidaryti failo irasymui.");
@@ -493,11 +493,13 @@ string skaitytiZodi(const string &pranesimas)
     }
 }
 
-void generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
+string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
 {
+    string failoPavadinimas = "studentai" + to_string(studentuSkaicius);
+
     try
     {
-        ofstream failas("..\\generatedData\\studentai" + to_string(studentuSkaicius) + ".txt");
+        ofstream failas("..\\generatedData\\" + failoPavadinimas + ".txt");
 
         failas << left;
         failas << setw(20) << "Vardas" << setw(20) << "Pavarde";
@@ -524,6 +526,8 @@ void generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
     {
         cerr << "Klaida: " << ex.what() << "\n";
     }
+
+    return failoPavadinimas;
 }
 
 void failuGeneravimas()
@@ -531,7 +535,31 @@ void failuGeneravimas()
     int studentuSkaicius = skaitytiSkaiciu("Iveskite studentu skaiciu (1 - 10 000 000):\n", 1, 10000000);
     int namuDarbuSkaicius = skaitytiSkaiciu("Iveskite namu darbu skaiciu (1 - 100):\n", 1, 100);
 
-    generuotiFaila(studentuSkaicius, namuDarbuSkaicius);
+    string failoPavadinimas = generuotiFaila(studentuSkaicius, namuDarbuSkaicius);
 
-    bool arRusiuoti = skaitytiSkaiciu("Ar norite surusiuoti studentus? (1 - Taip, 2 - Ne):\n", 1, 2) == 1;
+    bool arPadalinti = skaitytiSkaiciu("Ar norite padalinti studentus? (1 - Taip, 2 - Ne):\n", 1, 2) == 1;
+
+    if (arPadalinti)
+    {
+        vector<Studentas> studentai;
+        nuskaitytiFaila(studentai, "..\\generatedData\\" + failoPavadinimas + ".txt");
+        suskaiciuotiGalutini(studentai);
+
+        vector<Studentas> vargsiukai;
+        vector<Studentas> kietiakai;
+        for (const Studentas &studentas : studentai)
+        {
+            if (studentas.galutinisVidurkis < 5)
+            {
+                vargsiukai.push_back(studentas);
+            }
+            else
+            {
+                kietiakai.push_back(studentas);
+            }
+        }
+
+        isvestisFailas(vargsiukai, failoPavadinimas + "_vargsiukai.txt");
+        isvestisFailas(kietiakai, failoPavadinimas + "_kietiakai.txt");
+    }
 }
