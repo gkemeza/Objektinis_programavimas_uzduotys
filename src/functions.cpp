@@ -359,13 +359,10 @@ bool nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinima
         int namuDarbai = zodziuSkaicius - 3;
 
         Studentas studentas;
-        string vardas, pavarde;
-        while (failas >> vardas >> pavarde)
+        while (failas >> studentas.vardas >> studentas.pavarde)
         {
             studentas.pazymiai.clear();
             studentas.namuDarbai = namuDarbai;
-            studentas.vardas = vardas;
-            studentas.pavarde = pavarde;
 
             for (int i = 0; i < namuDarbai; i++)
             {
@@ -654,9 +651,11 @@ void duomenuApdorojimoTestavimas()
     skaidytiStudentus(studentai, vargsiukai, kietiakai);
     cout << "Studentu rusiavimo i dvi grupes laikas: " << timer2.elapsed() << " s" << endl;
 
-    // input = skaitytiSkaiciu("Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n", 1, 4);
-    // rusiuotiStudentus(vargsiukai, input);
-    // rusiuotiStudentus(kietiakai, input);
+    studentai.clear();
+    studentai.shrink_to_fit();
+
+    rusiuotiStudentus(vargsiukai, 3);
+    rusiuotiStudentus(kietiakai, 3);
 
     timer2.reset();
     isvestisFailas(vargsiukai, "..\\outputData\\testas_vargsiukai.txt");
