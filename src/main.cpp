@@ -15,12 +15,11 @@ int main()
     Studentas studentas;
     vector<Studentas> studentai;
     bool isFailo, pridetiStudentai;
-    ;
     int input;
 
     do
     {
-        input = skaitytiSkaiciu("Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - nuskaityti failą, 5 - generuoti faila, 6 - baigti darbą):\n", 1, 6);
+        input = skaitytiSkaiciu("Pasirinkite (1 - ranka, 2 - generuoti tik pažymius, 3 - generuoti studentų vardus, pavardės ir pažymius, 4 - nuskaityti failą, 5 - generuoti faila, 6 - testuoti greiti, 7 - baigti darbą):\n", 1, 7);
 
         switch (input)
         {
@@ -66,11 +65,14 @@ int main()
             failuGeneravimas();
             break;
         case 6:
+            testuotiGreiti();
+            break;
+        case 7:
             break;
         default:
             cout << "Neteisingas pasirinkimas!\n";
         }
-    } while (input != 4 && input != 6);
+    } while (input != 4 && input != 7);
 
     if (isFailo)
     {
@@ -97,7 +99,4 @@ int main()
         bool arMediana = suskaiciuotiGalutini(studentai);
         isvestis(studentai, arMediana);
     };
-
-    cout << fixed << setprecision(2);
-    cout << "Visos programos veikimo laikas: " << timer.elapsed() << " s" << endl;
 }

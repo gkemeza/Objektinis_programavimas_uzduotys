@@ -44,3 +44,6 @@ int skaitytiSkaiciu(const std::string &pranesimas, int min, int max);
 std::string skaitytiZodi(const std::string &pranesimas);
 std::string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius);
 void failuGeneravimas();
+void testuotiGreiti();
+void failoKurimoTestavimas();
+void duomenuApdorojimoTestavimas();
