@@ -568,7 +568,6 @@ void failuGeneravimas()
     if (arPadalinti)
     {
         vector<Studentas> studentai;
-        Timer timer;
 
         nuskaitytiFaila(studentai, "..\\generatedData\\" + failoPavadinimas + ".txt");
         suskaiciuotiGalutinius(studentai);
@@ -581,7 +580,6 @@ void failuGeneravimas()
         rusiuotiStudentus(vargsiukai, input);
         rusiuotiStudentus(kietiakai, input);
 
-        timer.reset();
         isvestisFailas(vargsiukai, failoPavadinimas + "_vargsiukai.txt");
         isvestisFailas(kietiakai, failoPavadinimas + "_kietiakai.txt");
     }
@@ -626,33 +624,39 @@ void duomenuApdorojimoTestavimas()
     {
     case 1:
         nuskaitytiFaila(studentai, "..\\archive\\studentai1000.txt");
-        cout << "Pasinktas failas: studentai1000.txt\n";
+        cout << "Pasirinktas failas: studentai1000.txt\n";
         break;
     case 2:
         nuskaitytiFaila(studentai, "..\\archive\\studentai10000.txt");
-        cout << "Pasinktas failas: studentai10000.txt\n";
+        cout << "Pasirinktas failas: studentai10000.txt\n";
         break;
     case 3:
         nuskaitytiFaila(studentai, "..\\archive\\studentai100000.txt");
-        cout << "Pasinktas failas: studentai100000.txt\n";
+        cout << "Pasirinktas failas: studentai100000.txt\n";
         break;
     case 4:
         nuskaitytiFaila(studentai, "..\\archive\\studentai1000000.txt");
-        cout << "Pasinktas failas: studentai1000000.txt\n";
+        cout << "Pasirinktas failas: studentai1000000.txt\n";
         break;
     case 5:
         nuskaitytiFaila(studentai, "..\\archive\\studentai10000000.txt");
-        cout << "Pasinktas failas: studentai10000000.txt\n";
+        cout << "Pasirinktas failas: studentai10000000.txt\n";
         break;
     }
     cout << fixed << setprecision(2);
     cout << "Duomenu nuskaitymo is failo laikas: " << timer2.elapsed() << " s" << endl;
+
+    suskaiciuotiGalutinius(studentai);
 
     vector<Studentas> vargsiukai;
     vector<Studentas> kietiakai;
     timer2.reset();
     skaidytiStudentus(studentai, vargsiukai, kietiakai);
     cout << "Studentu rusiavimo i dvi grupes laikas: " << timer2.elapsed() << " s" << endl;
+
+    // input = skaitytiSkaiciu("Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n", 1, 4);
+    // rusiuotiStudentus(vargsiukai, input);
+    // rusiuotiStudentus(kietiakai, input);
 
     timer2.reset();
     isvestisFailas(vargsiukai, "..\\outputData\\testas_vargsiukai.txt");
