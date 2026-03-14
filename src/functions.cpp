@@ -70,7 +70,7 @@ void isvestisFailas(const vector<Studentas> &studentai, string failoPavadinimas)
 {
     try
     {
-        ofstream failas("..\\outputData\\" + failoPavadinimas);
+        ofstream failas("../outputData/" + failoPavadinimas);
 
         if (!failas.is_open())
             throw runtime_error("Klaida: nepavyko atidaryti failo irasymui.");
@@ -331,57 +331,54 @@ void generuotiPazymius(Studentas &studentas)
     }
 }
 
-bool nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinimas)
+void nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinimas)
 {
-    try
+    ifstream failas(failoPavadinimas);
+    if (!failas.is_open())
+        throw runtime_error("Nepavyko atidaryti failo: " + failoPavadinimas);
+
+    string antraste;
+    if (!getline(failas, antraste))
+        throw runtime_error("Failas tuscias: " + failoPavadinimas);
+
+    istringstream ss(antraste);
+    string zodis;
+    int zodziuSkaicius = 0;
+    while (ss >> zodis)
     {
-        if (!exists(failoPavadinimas))
-            throw runtime_error("Failas nerastas: " + failoPavadinimas);
+        zodziuSkaicius++;
+    }
 
-        ifstream failas(failoPavadinimas);
-        if (!failas.is_open())
-            throw runtime_error("Nepavyko atidaryti failo: " + failoPavadinimas);
+    if (zodziuSkaicius < 4)
+        throw runtime_error("Neteisinga antraste: " + failoPavadinimas);
 
-        string antraste;
-        if (!getline(failas, antraste))
-            throw runtime_error("Failas tuscias: " + failoPavadinimas);
+    int namuDarbai = zodziuSkaicius - 3;
 
-        getline(failas, antraste);
-        istringstream ss(antraste);
+    Studentas studentas;
+    studentas.namuDarbai = namuDarbai;
+    while (failas >> studentas.vardas >> studentas.pavarde)
+    {
+        studentas.pazymiai.clear();
+        bool skaitymoPavyko = true;
 
-        string zodis;
-        int zodziuSkaicius = 0;
-        while (ss >> zodis)
+        for (int i = 0; i < namuDarbai; i++)
         {
-            zodziuSkaicius++;
-        }
-
-        int namuDarbai = zodziuSkaicius - 3;
-
-        Studentas studentas;
-        while (failas >> studentas.vardas >> studentas.pavarde)
-        {
-            studentas.pazymiai.clear();
-            studentas.namuDarbai = namuDarbai;
-
-            for (int i = 0; i < namuDarbai; i++)
+            int pazymys;
+            if (!(failas >> pazymys))
             {
-                int pazymys;
-                failas >> pazymys;
-                studentas.pazymiai.push_back(pazymys);
+                skaitymoPavyko = false;
+                break;
             }
-
-            failas >> studentas.egzaminoBalas;
-            studentai.push_back(studentas);
+            studentas.pazymiai.push_back(pazymys);
         }
-        return true;
-    }
-    catch (const runtime_error &ex)
-    {
-        cerr << "Klaida: " << ex.what() << "\n";
+
+        if (!skaitymoPavyko || !(failas >> studentas.egzaminoBalas))
+            throw runtime_error("Sugadintas failas: " + failoPavadinimas);
+
+        studentai.push_back(studentas);
     }
 
-    return false;
+    suskaiciuotiGalutinius(studentai);
 }
 
 bool rusiuotiPagalVarda(const Studentas &a, const Studentas &b)
@@ -498,41 +495,31 @@ string skaitytiZodi(const string &pranesimas)
 
 string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
 {
-    string failoPavadinimas = "studentai" + to_string(studentuSkaicius);
+    const string failoPavadinimas = "studentai" + to_string(studentuSkaicius);
 
-    try
+    ofstream failas("../generatedData/" + failoPavadinimas + ".txt");
+
+    if (!failas.is_open())
+        throw runtime_error("Klaida: nepavyko atidaryti failo irasymui.");
+
+    failas << left << setw(20) << "Vardas" << setw(20) << "Pavarde";
+
+    for (int i = 1; i <= namuDarbuSkaicius; i++)
     {
-        ofstream failas("..\\generatedData\\" + failoPavadinimas + ".txt");
-
-        if (!failas.is_open())
-            throw runtime_error("Klaida: nepavyko atidaryti failo irasymui.");
-
-        failas << left;
-        failas << setw(20) << "Vardas" << setw(20) << "Pavarde";
-        for (int i = 1; i <= namuDarbuSkaicius; i++)
-        {
-            failas << right;
-            failas << setw(10) << "ND" + to_string(i);
-        }
-        failas << setw(10) << " Egz." << "\n";
-
-        for (int i = 0; i < studentuSkaicius; i++)
-        {
-            failas << left;
-            failas << setw(20) << "VardasNR" + to_string(i + 1) << setw(20) << "PavardeNR" + to_string(i + 1);
-            failas << right;
-            for (int j = 0; j < namuDarbuSkaicius; j++)
-            {
-                failas << setw(10) << randomInt(1, 10);
-            }
-            failas << setw(10) << randomInt(1, 10) << "\n";
-        }
-
-        failas.close();
+        failas << right << setw(10) << "ND" + to_string(i);
     }
-    catch (const runtime_error &ex)
+    failas << right << setw(10) << " Egz." << "\n";
+
+    for (int i = 0; i < studentuSkaicius; i++)
     {
-        cerr << "Klaida: " << ex.what() << "\n";
+        failas << left << setw(20) << "VardasNR" + to_string(i + 1) << setw(20) << "PavardeNR" + to_string(i + 1);
+
+        failas << right;
+        for (int j = 0; j < namuDarbuSkaicius; j++)
+        {
+            failas << setw(10) << randomInt(1, 10);
+        }
+        failas << setw(10) << randomInt(1, 10) << "\n";
     }
 
     return failoPavadinimas;
@@ -558,7 +545,15 @@ void failuGeneravimas()
     int studentuSkaicius = skaitytiSkaiciu("Iveskite studentu skaiciu (1 - 10 000 000):\n", 1, 10000000);
     int namuDarbuSkaicius = skaitytiSkaiciu("Iveskite namu darbu skaiciu (1 - 100):\n", 1, 100);
 
-    string failoPavadinimas = generuotiFaila(studentuSkaicius, namuDarbuSkaicius);
+    string failoPavadinimas;
+    try
+    {
+        failoPavadinimas = generuotiFaila(studentuSkaicius, namuDarbuSkaicius);
+    }
+    catch (const runtime_error &ex)
+    {
+        cerr << "KLAIDA: " << ex.what() << "\n";
+    }
 
     bool arPadalinti = skaitytiSkaiciu("Ar norite padalinti studentus? (1 - Taip, 2 - Ne):\n", 1, 2) == 1;
 
@@ -566,7 +561,14 @@ void failuGeneravimas()
     {
         vector<Studentas> studentai;
 
-        nuskaitytiFaila(studentai, "..\\generatedData\\" + failoPavadinimas + ".txt");
+        try
+        {
+            nuskaitytiFaila(studentai, "../generatedData/" + failoPavadinimas + ".txt");
+        }
+        catch (const runtime_error &ex)
+        {
+            cerr << "Klaida: " << ex.what() << "\n";
+        }
         suskaiciuotiGalutinius(studentai);
 
         vector<Studentas> vargsiukai;
@@ -605,62 +607,85 @@ void failoKurimoTestavimas()
     int namuDarbuSkaicius = skaitytiSkaiciu("Iveskite namu darbu skaiciu (1 - 100):\n", 1, 100);
 
     Timer timer;
-    generuotiFaila(studentuSkaicius, namuDarbuSkaicius);
+    try
+    {
+        generuotiFaila(studentuSkaicius, namuDarbuSkaicius);
+    }
+    catch (const runtime_error &ex)
+    {
+        cerr << "KLAIDA: " << ex.what() << "\n";
+    }
     cout << fixed << setprecision(2);
     cout << "Failo sukurimo laikas: " << timer.elapsed() << " s" << endl;
 }
 
 void duomenuApdorojimoTestavimas()
 {
+    const vector<string> failai = {
+        "../archive/studentai1000.txt",
+        "../archive/studentai10000.txt",
+        "../archive/studentai100000.txt",
+        "../archive/studentai1000000.txt",
+        "../archive/studentai10000000.txt"};
+
     int input = skaitytiSkaiciu("Pasirinkite 1 - studentai1000.txt, 2 - studentai10000.txt, 3 - studentai100000.txt, 4 - studentai1000000.txt, 5 - studentai10000000.txt):\n", 1, 5);
 
-    vector<Studentas> studentai;
-    Timer timer1;
-    Timer timer2;
-    switch (input)
-    {
-    case 1:
-        nuskaitytiFaila(studentai, "..\\archive\\studentai1000.txt");
-        cout << "Pasirinktas failas: studentai1000.txt\n";
-        break;
-    case 2:
-        nuskaitytiFaila(studentai, "..\\archive\\studentai10000.txt");
-        cout << "Pasirinktas failas: studentai10000.txt\n";
-        break;
-    case 3:
-        nuskaitytiFaila(studentai, "..\\archive\\studentai100000.txt");
-        cout << "Pasirinktas failas: studentai100000.txt\n";
-        break;
-    case 4:
-        nuskaitytiFaila(studentai, "..\\archive\\studentai1000000.txt");
-        cout << "Pasirinktas failas: studentai1000000.txt\n";
-        break;
-    case 5:
-        nuskaitytiFaila(studentai, "..\\archive\\studentai10000000.txt");
-        cout << "Pasirinktas failas: studentai10000000.txt\n";
-        break;
-    }
-    cout << fixed << setprecision(2);
-    cout << "Duomenu nuskaitymo is failo laikas: " << timer2.elapsed() << " s" << endl;
+    const string &pasirinktasFailas = failai[input - 1];
+    cout << "Pasirinktas failas: " << pasirinktasFailas << "\n";
 
-    suskaiciuotiGalutinius(studentai);
+    vector<Studentas> studentai;
+    Timer totalTimer;
+    Timer taskTimer;
+
+    try
+    {
+        nuskaitytiFaila(studentai, pasirinktasFailas);
+        cout << fixed << setprecision(2)
+             << "Duomenu nuskaitymo is failo laikas: " << taskTimer.elapsed() << " s\n";
+    }
+    catch (const runtime_error &ex)
+    {
+        cerr << "Klaida skaitant faila: " << ex.what() << "\n";
+        return;
+    }
 
     vector<Studentas> vargsiukai;
     vector<Studentas> kietiakai;
-    timer2.reset();
+    taskTimer.reset();
     skaidytiStudentus(studentai, vargsiukai, kietiakai);
-    cout << "Studentu rusiavimo i dvi grupes laikas: " << timer2.elapsed() << " s" << endl;
+    cout << "Studentu rusiavimo i dvi grupes laikas: " << taskTimer.elapsed() << " s\n";
 
     studentai.clear();
     studentai.shrink_to_fit();
 
+    taskTimer.reset();
     rusiuotiStudentus(vargsiukai, 3);
     rusiuotiStudentus(kietiakai, 3);
+    cout << "Studentu rusiavimo pagal vidurki laikas: " << taskTimer.elapsed() << " s\n";
 
-    timer2.reset();
-    isvestisFailas(vargsiukai, "..\\outputData\\testas_vargsiukai.txt");
-    isvestisFailas(kietiakai, "..\\outputData\\testas_kietiakai.txt");
-    cout << "Studentu isvedimo i du naujus failus laikas: " << timer2.elapsed() << " s" << endl;
+    taskTimer.reset();
+    isvestisFailas(vargsiukai, "../outputData/testas_vargsiukai.txt");
+    isvestisFailas(kietiakai, "../outputData/testas_kietiakai.txt");
+    cout << "Studentu isvedimo i du naujus failus laikas: " << taskTimer.elapsed() << " s\n";
 
-    cout << "Viso testavimo veikimo laikas: " << timer1.elapsed() << " s" << endl;
+    cout << "Viso testavimo veikimo laikas: " << totalTimer.elapsed() << " s\n";
+}
+
+void failoNuskaitymas(vector<Studentas> &studentai)
+{
+    Timer timer;
+    try
+    {
+        // nuskaitytiFaila(studentai, "../data/kursiokai.txt");
+        // nuskaitytiFaila(studentai, "../data/studentai10000.txt");
+        nuskaitytiFaila(studentai, "../data/studentai100000.txt");
+        // nuskaitytiFaila(studentai, "../data/studentai1000000.txt");
+    }
+    catch (const runtime_error &ex)
+    {
+        cerr << "KLAIDA: " << ex.what() << "\n";
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "Nuskaitymo laikas: " << timer.elapsed() << " s\n";
 }

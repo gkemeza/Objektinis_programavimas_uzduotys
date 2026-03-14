@@ -11,7 +11,6 @@ using std::vector;
 
 int main()
 {
-    Timer timer;
     Studentas studentas;
     vector<Studentas> studentai;
     bool isFailo, pridetiStudentai;
@@ -43,22 +42,8 @@ int main()
             break;
         case 4:
         {
-            timer.reset();
-
-            try
-            {
-                // isFailo = nuskaitytiFaila(studentai, "data\\kursiokai.txt");
-                // isFailo = nuskaitytiFaila(studentai, "data\\studentai10000.txt");
-                isFailo = nuskaitytiFaila(studentai, "data\\studentai100000.txt");
-                //  isFailo = nuskaitytiFaila(studentai, "studentai1000000.txt");
-            }
-            catch (const runtime_error &ex)
-            {
-                cerr << "Klaida: " << ex.what() << "\n";
-            }
-
-            cout << fixed << setprecision(2);
-            cout << "Nuskaitymo laikas: " << timer.elapsed() << " s" << endl;
+            failoNuskaitymas(studentai);
+            isFailo = true;
             break;
         }
         case 5:
@@ -72,31 +57,32 @@ int main()
         default:
             cout << "Neteisingas pasirinkimas!\n";
         }
-    } while (input != 4 && input != 7);
 
-    if (isFailo)
-    {
-        suskaiciuotiGalutinius(studentai);
-        surusiuotiPagalPasirinkima(studentai);
-
-        int input = skaitytiSkaiciu("Pasirinkite isvedima (1 - Failas, 2 - Konsole):\n", 1, 2);
-
-        switch (input)
+        if (isFailo)
         {
-        case 1:
-            isvestisFailas(studentai, "isvestis.txt");
-            break;
-        case 2:
-            isvestisKonsole(studentai);
-            break;
-        default:
-            cout << "Neteisingas pasirinkimas!\n";
-            break;
+            suskaiciuotiGalutinius(studentai);
+            surusiuotiPagalPasirinkima(studentai);
+
+            int input = skaitytiSkaiciu("Pasirinkite isvedima (1 - Failas, 2 - Konsole):\n", 1, 2);
+
+            switch (input)
+            {
+            case 1:
+                isvestisFailas(studentai, "isvestis.txt");
+                break;
+            case 2:
+                isvestisKonsole(studentai);
+                break;
+            default:
+                cout << "Neteisingas pasirinkimas!\n";
+                break;
+            }
         }
-    }
-    else if (pridetiStudentai)
-    {
-        bool arMediana = suskaiciuotiGalutini(studentai);
-        isvestis(studentai, arMediana);
-    };
+        else if (pridetiStudentai)
+        {
+            bool arMediana = suskaiciuotiGalutini(studentai);
+            isvestis(studentai, arMediana);
+        };
+
+    } while (input != 7);
 }
