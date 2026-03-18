@@ -12,7 +12,7 @@ using std::vector;
 int main()
 {
     Studentas studentas;
-    vector<Studentas> studentai;
+    StudentuKonteineris studentai;
     bool isFailo, pridetiStudentai;
     int input;
 

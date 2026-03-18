@@ -10,6 +10,8 @@
 #include <random>
 #include <stdexcept>
 #include <filesystem>
+#include <list>
+#include <deque>
 
 struct Studentas
 {
@@ -20,6 +22,10 @@ struct Studentas
     double galutinisVidurkis = 0;
     double galutinisMediana = 0;
 };
+
+using StudentuKonteineris = std::vector<Studentas>;
+// using StudentuKonteineris = std::list<Studentas>;
+// using StudentuKonteineris = std::deque<Studentas>;
 
 void isvestis(const std::vector<Studentas> &studentai, bool arMediana);
 void isvestisKonsole(const std::vector<Studentas> &studentai);

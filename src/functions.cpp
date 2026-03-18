@@ -567,7 +567,7 @@ void failuGeneravimas()
         }
         catch (const runtime_error &ex)
         {
-            cerr << "Klaida: " << ex.what() << "\n";
+            cerr << "KLAIDA: " << ex.what() << "\n";
         }
         suskaiciuotiGalutinius(studentai);
 
