@@ -23,7 +23,7 @@ using std::uniform_int_distribution;
 using std::vector;
 using std::filesystem::exists;
 
-void isvestis(const vector<Studentas> &studentai, bool arMediana)
+void isvestis(const StudentuKonteineris &studentai, bool arMediana)
 {
     cout << left << fixed << setprecision(2);
     if (arMediana)
@@ -50,7 +50,7 @@ void isvestis(const vector<Studentas> &studentai, bool arMediana)
     }
 }
 
-void isvestisKonsole(const vector<Studentas> &studentai)
+void isvestisKonsole(const StudentuKonteineris &studentai)
 {
     cout << left << setw(20) << "Vardas" << left << setw(20) << "Pavarde" << left << setw(20) << "Galutinis (Vid.)"
          << left << setw(20) << "Galutinis (Med.)" << "\n";
@@ -66,7 +66,7 @@ void isvestisKonsole(const vector<Studentas> &studentai)
     }
 }
 
-void isvestisFailas(const vector<Studentas> &studentai, string failoPavadinimas)
+void isvestisFailas(const StudentuKonteineris &studentai, string failoPavadinimas)
 {
     try
     {
@@ -155,7 +155,7 @@ int gautiPazymiuSuma(const Studentas &studentas)
     return suma;
 }
 
-bool suskaiciuotiGalutini(vector<Studentas> &studentai)
+bool suskaiciuotiGalutini(StudentuKonteineris &studentai)
 {
     try
     {
@@ -192,7 +192,7 @@ bool suskaiciuotiGalutini(vector<Studentas> &studentai)
     return false;
 }
 
-void suskaiciuotiGalutinius(vector<Studentas> &studentai)
+void suskaiciuotiGalutinius(StudentuKonteineris &studentai)
 {
     for (Studentas &studentas : studentai)
     {
@@ -331,7 +331,7 @@ void generuotiPazymius(Studentas &studentas)
     }
 }
 
-void nuskaitytiFaila(vector<Studentas> &studentai, const string &failoPavadinimas)
+void nuskaitytiFaila(StudentuKonteineris &studentai, const string &failoPavadinimas)
 {
     ifstream failas(failoPavadinimas);
     if (!failas.is_open())
@@ -401,7 +401,7 @@ bool rusiuotiPagalMediana(const Studentas &a, const Studentas &b)
     return a.galutinisMediana < b.galutinisMediana;
 }
 
-void rusiuotiStudentus(vector<Studentas> &studentai, int input)
+void rusiuotiStudentus(StudentuKonteineris &studentai, int input)
 {
     switch (input)
     {
@@ -423,7 +423,7 @@ void rusiuotiStudentus(vector<Studentas> &studentai, int input)
     }
 }
 
-void surusiuotiPagalPasirinkima(vector<Studentas> &studentai)
+void surusiuotiPagalPasirinkima(StudentuKonteineris &studentai)
 {
     int input = skaitytiSkaiciu("Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n", 1, 4);
 
@@ -525,7 +525,7 @@ string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
     return failoPavadinimas;
 }
 
-void skaidytiStudentus(vector<Studentas> &studentai, vector<Studentas> &vargsiukai, vector<Studentas> &kietiakai)
+void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai, StudentuKonteineris &kietiakai)
 {
     for (const Studentas &studentas : studentai)
     {
@@ -559,7 +559,7 @@ void failuGeneravimas()
 
     if (arPadalinti)
     {
-        vector<Studentas> studentai;
+        StudentuKonteineris studentai;
 
         try
         {
@@ -571,8 +571,8 @@ void failuGeneravimas()
         }
         suskaiciuotiGalutinius(studentai);
 
-        vector<Studentas> vargsiukai;
-        vector<Studentas> kietiakai;
+        StudentuKonteineris vargsiukai;
+        StudentuKonteineris kietiakai;
         skaidytiStudentus(studentai, vargsiukai, kietiakai);
 
         int input = skaitytiSkaiciu("Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n", 1, 4);
@@ -633,7 +633,7 @@ void duomenuApdorojimoTestavimas()
     const string &pasirinktasFailas = failai[input - 1];
     cout << "Pasirinktas failas: " << pasirinktasFailas << "\n";
 
-    vector<Studentas> studentai;
+    StudentuKonteineris studentai;
     Timer totalTimer;
     Timer taskTimer;
 
@@ -649,14 +649,14 @@ void duomenuApdorojimoTestavimas()
         return;
     }
 
-    vector<Studentas> vargsiukai;
-    vector<Studentas> kietiakai;
+    StudentuKonteineris vargsiukai;
+    StudentuKonteineris kietiakai;
     taskTimer.reset();
     skaidytiStudentus(studentai, vargsiukai, kietiakai);
     cout << "Studentu rusiavimo i dvi grupes laikas: " << taskTimer.elapsed() << " s\n";
 
     studentai.clear();
-    studentai.shrink_to_fit();
+    // studentai.shrink_to_fit();
 
     taskTimer.reset();
     rusiuotiStudentus(vargsiukai, 3);
@@ -671,7 +671,7 @@ void duomenuApdorojimoTestavimas()
     cout << "Viso testavimo veikimo laikas: " << totalTimer.elapsed() << " s\n";
 }
 
-void failoNuskaitymas(vector<Studentas> &studentai)
+void failoNuskaitymas(StudentuKonteineris &studentai)
 {
     Timer timer;
     try
