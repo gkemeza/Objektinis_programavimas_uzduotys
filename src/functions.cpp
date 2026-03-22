@@ -174,7 +174,7 @@ bool suskaiciuotiGalutini(StudentuKonteineris &studentai)
         case 2:
             for (Studentas &studentas : studentai)
             {
-                sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+                surusiuotiPazymius(studentas);
                 int semestroPazymiuSuma = gautiPazymiuSuma(studentas);
                 double vidurkis = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
                 studentas.galutinisMediana = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
@@ -201,7 +201,7 @@ void suskaiciuotiGalutinius(StudentuKonteineris &studentai)
         double vidurkis = gautiVidurkiVidutini(studentas, semestroPazymiuSuma);
         studentas.galutinisVidurkis = vidurkis * 0.4 + studentas.egzaminoBalas * 0.6;
 
-        sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+        surusiuotiPazymius(studentas);
         double mediana = gautiVidurkiMediana(studentas, semestroPazymiuSuma);
         studentas.galutinisMediana = mediana * 0.4 + studentas.egzaminoBalas * 0.6;
     }
@@ -406,16 +406,16 @@ void rusiuotiStudentus(StudentuKonteineris &studentai, int input)
     switch (input)
     {
     case 1:
-        sort(studentai.begin(), studentai.end(), rusiuotiPagalVarda);
+        surusiuotiStudentus(studentai, rusiuotiPagalVarda);
         break;
     case 2:
-        sort(studentai.begin(), studentai.end(), rusiuotiPagalPavarde);
+        surusiuotiStudentus(studentai, rusiuotiPagalPavarde);
         break;
     case 3:
-        sort(studentai.begin(), studentai.end(), rusiuotiPagalVidurki);
+        surusiuotiStudentus(studentai, rusiuotiPagalVidurki);
         break;
     case 4:
-        sort(studentai.begin(), studentai.end(), rusiuotiPagalMediana);
+        surusiuotiStudentus(studentai, rusiuotiPagalMediana);
         break;
     default:
         cout << "Neteisingas pasirinkimas!\n";
@@ -688,4 +688,31 @@ void failoNuskaitymas(StudentuKonteineris &studentai)
 
     cout << fixed << setprecision(2);
     cout << "Nuskaitymo laikas: " << timer.elapsed() << " s\n";
+}
+
+void failoDuomenuApdorojimas(StudentuKonteineris &studentai)
+{
+    suskaiciuotiGalutinius(studentai);
+    surusiuotiPagalPasirinkima(studentai);
+
+    int input = skaitytiSkaiciu("Pasirinkite isvedima (1 - Failas, 2 - Konsole):\n", 1, 2);
+
+    switch (input)
+    {
+    case 1:
+        isvestisFailas(studentai, "isvestis.txt");
+        break;
+    case 2:
+        isvestisKonsole(studentai);
+        break;
+    default:
+        cout << "Neteisingas pasirinkimas!\n";
+        break;
+    }
+}
+
+void studentuDuomenuApdorojimas(StudentuKonteineris &studentai)
+{
+    bool arMediana = suskaiciuotiGalutini(studentai);
+    isvestis(studentai, arMediana);
 }

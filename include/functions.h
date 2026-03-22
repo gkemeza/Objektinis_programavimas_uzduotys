@@ -27,6 +27,26 @@ using StudentuKonteineris = std::vector<Studentas>;
 // using StudentuKonteineris = std::list<Studentas>;
 // using StudentuKonteineris = std::deque<Studentas>;
 
+using Comparator = bool (*)(const Studentas &, const Studentas &);
+
+template <typename Konteineris>
+void surusiuotiPazymius(Konteineris &studentas)
+{
+    sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
+}
+
+template <typename Konteineris>
+inline void surusiuotiStudentus(Konteineris &studentai, Comparator comparator)
+{
+    sort(studentai.begin(), studentai.end(), comparator);
+}
+
+template <>
+inline void surusiuotiStudentus(std::list<Studentas> &studentai, Comparator comparator)
+{
+    studentai.sort(comparator);
+}
+
 void isvestis(const StudentuKonteineris &studentai, bool arMediana);
 void isvestisKonsole(const StudentuKonteineris &studentai);
 void isvestisFailas(const StudentuKonteineris &studentai, std::string failoPavadinimas);
@@ -54,3 +74,5 @@ void testuotiGreiti();
 void failoKurimoTestavimas();
 void duomenuApdorojimoTestavimas();
 void failoNuskaitymas(StudentuKonteineris &studentai);
+void failoDuomenuApdorojimas(StudentuKonteineris &studentai);
+void studentuDuomenuApdorojimas(StudentuKonteineris &studentai);

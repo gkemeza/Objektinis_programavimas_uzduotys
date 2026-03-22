@@ -13,7 +13,7 @@ int main()
 {
     Studentas studentas;
     StudentuKonteineris studentai;
-    bool isFailo, pridetiStudentai;
+    bool pridetiStudentai;
     int input;
 
     do
@@ -26,24 +26,24 @@ int main()
             ivestisRanka(studentas);
             studentai.push_back(studentas);
             studentas = {};
-            pridetiStudentai = true;
+            studentuDuomenuApdorojimas(studentai);
             break;
         case 2:
             generuotiPazymius(studentas);
             studentai.push_back(studentas);
             studentas = {};
-            pridetiStudentai = true;
+            studentuDuomenuApdorojimas(studentai);
             break;
         case 3:
             generuotiStudenta(studentas);
             studentai.push_back(studentas);
             studentas = {};
-            pridetiStudentai = true;
+            studentuDuomenuApdorojimas(studentai);
             break;
         case 4:
         {
             failoNuskaitymas(studentai);
-            isFailo = true;
+            failoDuomenuApdorojimas(studentai);
             break;
         }
         case 5:
@@ -57,32 +57,6 @@ int main()
         default:
             cout << "Neteisingas pasirinkimas!\n";
         }
-
-        if (isFailo)
-        {
-            suskaiciuotiGalutinius(studentai);
-            surusiuotiPagalPasirinkima(studentai);
-
-            int input = skaitytiSkaiciu("Pasirinkite isvedima (1 - Failas, 2 - Konsole):\n", 1, 2);
-
-            switch (input)
-            {
-            case 1:
-                isvestisFailas(studentai, "isvestis.txt");
-                break;
-            case 2:
-                isvestisKonsole(studentai);
-                break;
-            default:
-                cout << "Neteisingas pasirinkimas!\n";
-                break;
-            }
-        }
-        else if (pridetiStudentai)
-        {
-            bool arMediana = suskaiciuotiGalutini(studentai);
-            isvestis(studentai, arMediana);
-        };
 
     } while (input != 7);
 }
