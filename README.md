@@ -1,93 +1,35 @@
 # V1.0
 ### Testavimo sistemos parametrai
 
-**CPU:** Intel core i5-10210U
-**SSD:** WDC PC SN520
+**CPU:** Intel core i5-10210U\
+**SSD:** WDC PC SN520\
 **RAM:** 8GB
 
-### Spartos testavimas su skirtingais konteineriais (3 ND)
+### Spartos testavimas su skirtingais konteineriais
 
-**[std::vector]**
+### std::vector
 
-1000 studentu:\
-duomenu nuskaitymas is failo - 0.004 s\
-studentu rusiavimas didejimo tvarka - 0.005 s\
-studentu skirstymas i dvi grupes - 0.002 s
+| Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
+|:------------------------|---------:|---------:|---------:|----------:|-----------:|
+| Nuskaitymas is failo    |  0.004 s |  0.027 s |  0.148 s |   1.181 s |   15.721 s |
+| Rusiavimas (sort asc)   |  0.005 s |  0.025 s |  0.345 s |   4.096 s |   55.102 s |
+| Skirstymas i dvi grupes |  0.002 s |  0.008 s |  0.064 s |   0.616 s |    9.542 s |
 
-10000 studentu:\
-duomenu nuskaitymas is failo - 0.027 s\
-studentu rusiavimas didejimo tvarka - 0.025 s\
-studentu skirstymas i dvi grupes - 0.008 s
+### std::list
 
-100000 studentu:\
-duomenu nuskaitymas is failo - 0.148 s\
-studentu rusiavimas didejimo tvarka - 0.345 s\
-studentu skirstymas i dvi grupes - 0.064 s
+| Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
+|:------------------------|---------:|---------:|---------:|----------:|-----------:|
+| Nuskaitymas is failo    |  0.007 s |  0.030 s |  0.161 s |   1.168 s |   12.997 s |
+| Rusiavimas (sort asc)   |  0.001 s |  0.005 s |  0.096 s |   1.256 s |   17.955 s |
+| Skirstymas i dvi grupes |  0.001 s |  0.005 s |  0.068 s |   0.702 s |    9.144 s |
 
-1000000 studentu:\
-duomenu nuskaitymas is failo - 1.181 s\
-studentu rusiavimas didejimo tvarka - 4.096 s\
-studentu skirstymas i dvi grupes - 0.616 s
+### std::deque
 
-
-10000000 studentu:\
-duomenu nuskaitymas is failo - 15.721 s\
-studentu rusiavimas didejimo tvarka - 55.102 s\
-studentu skirstymas i dvi grupes - 9.542 s
-
-**[std::list]**
-
-1000 studentu:\
-duomenu nuskaitymas is failo - 0.007 s\
-studentu rusiavimas didejimo tvarka - 0.001 s\
-studentu skirstymas i dvi grupes - 0.001 s
-
-10000 studentu:\
-duomenu nuskaitymas is failo - 0.030 s\
-studentu rusiavimas didejimo tvarka - 0.005 s\
-studentu skirstymas i dvi grupes - 0.005 s
-
-100000 studentu:\
-duomenu nuskaitymas is failo - 0.161 s\
-studentu rusiavimas didejimo tvarka - 0.096 s\
-studentu skirstymas i dvi grupes - 0.068 s
-
-1000000 studentu:\
-duomenu nuskaitymas is failo - 1.168 s\
-studentu rusiavimas didejimo tvarka - 1.256 s\
-studentu skirstymas i dvi grupes - 0.702 s
-
-10000000 studentu:\
-duomenu nuskaitymas is failo - 12.997 s\
-studentu rusiavimas didejimo tvarka - 17.955 s\
-studentu skirstymas i dvi grupes - 9.144 s
-
-**[std::deque]**
-
-1000 studentu:\
-duomenu nuskaitymas is failo - 0.002 s\
-studentu rusiavimas didejimo tvarka - 0.003 s\
-studentu skirstymas i dvi grupes - 0.001 s
-
-10000 studentu:\
-duomenu nuskaitymas is failo - 0.014 s\
-studentu rusiavimas didejimo tvarka - 0.032 s\
-studentu skirstymas i dvi grupes - 0.003 s
-
-100000 studentu:\
-duomenu nuskaitymas is failo - 0.120 s\
-studentu rusiavimas didejimo tvarka - 0.340 s\
-studentu skirstymas i dvi grupes - 0.036 s
-
-1000000 studentu:\
-duomenu nuskaitymas is failo - 0.993 s\
-studentu rusiavimas didejimo tvarka - 4.529 s\
-studentu skirstymas i dvi grupes - 0.373 s
-
-10000000 studentu:\
-duomenu nuskaitymas is failo - 14.062 s\
-studentu rusiavimas didejimo tvarka - 61.390 s\
-studentu skirstymas i dvi grupes - 6.825 s
+| Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
+|:------------------------|---------:|---------:|---------:|----------:|-----------:|
+| Nuskaitymas is failo    |  0.002 s |  0.014 s |  0.120 s |   0.993 s |   14.062 s |
+| Rusiavimas (sort asc)   |  0.003 s |  0.032 s |  0.340 s |   4.529 s |   61.390 s |
+| Skirstymas i dvi grupes |  0.001 s |  0.003 s |  0.036 s |   0.373 s |    6.825 s |
 
 ## V0.4
 [1 TYRIMAS] Failo sukurimo vidurkiai (3 bandymai, 3 ND):
