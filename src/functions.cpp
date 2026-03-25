@@ -529,7 +529,7 @@ void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &varg
 {
     for (const Studentas &studentas : studentai)
     {
-        if (studentas.galutinisVidurkis < 5 && studentas.galutinisMediana < 5)
+        if (studentas.galutinisVidurkis < 5)
         {
             vargsiukai.push_back(studentas);
         }
@@ -640,7 +640,7 @@ void duomenuApdorojimoTestavimas()
     try
     {
         nuskaitytiFaila(studentai, pasirinktasFailas);
-        cout << fixed << setprecision(2)
+        cout << fixed << setprecision(3)
              << "Duomenu nuskaitymo is failo laikas: " << taskTimer.elapsed() << " s\n";
     }
     catch (const runtime_error &ex)
@@ -648,6 +648,10 @@ void duomenuApdorojimoTestavimas()
         cerr << "Klaida skaitant faila: " << ex.what() << "\n";
         return;
     }
+
+    taskTimer.reset();
+    rusiuotiStudentus(studentai, 3);
+    cout << "Studentu rusiavimo pagal vidurki laikas (sort): " << taskTimer.elapsed() << " s\n";
 
     StudentuKonteineris vargsiukai;
     StudentuKonteineris kietiakai;
@@ -658,17 +662,12 @@ void duomenuApdorojimoTestavimas()
     studentai.clear();
     // studentai.shrink_to_fit();
 
-    taskTimer.reset();
-    rusiuotiStudentus(vargsiukai, 3);
-    rusiuotiStudentus(kietiakai, 3);
-    cout << "Studentu rusiavimo pagal vidurki laikas: " << taskTimer.elapsed() << " s\n";
+    // taskTimer.reset();
+    // isvestisFailas(vargsiukai, "../outputData/testas_vargsiukai.txt");
+    // isvestisFailas(kietiakai, "../outputData/testas_kietiakai.txt");
+    // cout << "Studentu isvedimo i du naujus failus laikas: " << taskTimer.elapsed() << " s\n";
 
-    taskTimer.reset();
-    isvestisFailas(vargsiukai, "../outputData/testas_vargsiukai.txt");
-    isvestisFailas(kietiakai, "../outputData/testas_kietiakai.txt");
-    cout << "Studentu isvedimo i du naujus failus laikas: " << taskTimer.elapsed() << " s\n";
-
-    cout << "Viso testavimo veikimo laikas: " << totalTimer.elapsed() << " s\n";
+    // cout << "Viso testavimo veikimo laikas: " << totalTimer.elapsed() << " s\n";
 }
 
 void failoNuskaitymas(StudentuKonteineris &studentai)
