@@ -565,6 +565,16 @@ void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &varg
     }
 }
 
+// 3 Strategija
+void skaidytiStudentus3(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai, StudentuKonteineris &kietiakai)
+{
+    auto riba = stable_partition(studentai.begin(), studentai.end(), [](const Studentas &s)
+                                 { return s.galutinisVidurkis < 5; });
+
+    copy(studentai.begin(), riba, back_inserter(vargsiukai));
+    copy(riba, studentai.end(), back_inserter(kietiakai));
+}
+
 void failuGeneravimas()
 {
     int studentuSkaicius = skaitytiSkaiciu("Iveskite studentu skaiciu (1 - 10 000 000):\n", 1, 10000000);
@@ -662,17 +672,17 @@ void duomenuApdorojimoTestavimas()
     cout << "Studentu rusiavimo pagal vidurki laikas (sort): " << taskTimer.elapsed() << " s\n";
 
     StudentuKonteineris vargsiukai;
-    // StudentuKonteineris kietiakai;
+    StudentuKonteineris kietiakai;
 
     taskTimer.reset();
     // skaidytiStudentus(studentai, vargsiukai, kietiakai);
-    skaidytiStudentus(studentai, vargsiukai);
+    // skaidytiStudentus(studentai, vargsiukai);
+    skaidytiStudentus3(studentai, vargsiukai, kietiakai);
     cout << "Studentu rusiavimo i dvi grupes laikas: " << taskTimer.elapsed() << " s\n";
 
-    // studentai.clear();
-
-    // isvestisFailas(vargsiukai, "../outputData/testas_vargsiukai.txt");
-    // isvestisFailas(studentai, "../outputData/testas_kietiakai.txt");
+    studentai.clear();
+    isvestisFailas(vargsiukai, "../outputData/testas_vargsiukai.txt");
+    isvestisFailas(studentai, "../outputData/testas_kietiakai.txt");
 }
 
 void testuotiGreiti()
