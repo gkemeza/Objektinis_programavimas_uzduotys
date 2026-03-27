@@ -1,4 +1,31 @@
+# Naudojimosi  instrukcija 
+
+1 - pilnas studento ivedimas (vardas, pavarde, pazymiai)\
+2 - pusiau automatinis studento ivedimas (pazymiai susigeneruoja)\
+3 - pilnai automatinis studento generavimas\
+4 - failo nuskaitymas, duomenu rusiavimas ir isvedimas\
+5 - sugeneruoti pasirinkto dydzio faila\
+6 - testuoti failo sparta\
+7 - isjungti programa\
+
+# Įdiegimo  instrukcija 
+
+git clone --branch v1.0 https://github.com/gkemeza/Objektinis_programavimas_uzduotys.git\
+cd Objektinis_programavimas_uzduotys\
+mkdir build && cd build\
+cmake ..\
+cmake --build .
+
+**Windows paleidimas:**\
+Debug\Work_with_files.exe
+
+**Linux/Mac paleidimas (netestuota):**\
+./Work_with_files
+
 # V1.0
+
+Pridetas spartos testavimas su skirtingais konteineriais, 3 strategijos, README.md aprasymai prie kiekvieno release, naudojimosi instrukcija.
+
 ### Testavimo sistemos parametrai
 
 **CPU:** Intel core i5-10210U\
@@ -31,6 +58,8 @@
 | Rusiavimas (sort asc)   |  0.003 s |  0.032 s |  0.340 s |   4.529 s |   61.390 s |
 | Skirstymas i dvi grupes |  0.001 s |  0.003 s |  0.036 s |   0.373 s |    6.825 s |
 
+1 strategijos skaidymas i du konteinerius greiciausiai veikia su deque konteineriu.
+
 ### 2 strategija (studentai konteinerio skirstymas panaudojant tik vieną naują konteinerį)
 ### std::vector
 
@@ -49,6 +78,8 @@
 | Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
 |:------------------------|---------:|---------:|---------:|----------:|-----------:|
 | Skirstymas i dvi grupes |  0.000 s |  0.003 s |  0.027 s |   0.307 s |    5.019 s |
+
+2 strategijoje pagreiteja sparta su list ir deque, bet stipriai suleteja vector.
 
 ### 3 strategija (skaidymas į du konteinerius, panaudojant stable_partition(), copy() ir back_inserter())
 ### std::vector
@@ -69,7 +100,12 @@
 |:------------------------|---------:|---------:|---------:|----------:|-----------:|
 | Skirstymas i dvi grupes |  0.002 s |  0.007 s |  0.076 s |   0.849 s |   11.546 s |
 
+3 strategijos visu konteineriu sparta yra mazesne uz pirmos strategijos.
+
 ## V0.4
+
+Pridetas failu generavimas, studentu skirstymas i dvi kategorijas, spartos tyrimai ir CMake failas
+
 [1 TYRIMAS] Failo sukurimo vidurkiai (3 bandymai, 3 ND):
 
 1000 studentu - 0.07 s 
@@ -134,7 +170,14 @@ viso testavimo veikimas - 39.45 s
 
 ![alt text](images/image-7.png)
 
+## V0.3
+
+Atliktas programos refactoring'as: prideti header failai ir isimciu gaudymas
+
 ## V0.2
+
+Sioje versijoje palikta tik vector versija ir pridetas failo nuskaitymas, duomenu rusiavimas
+
 Failu nuskaitymo vidurkiai (5 bandymai):
 
 1. 'studentai.txt' - 0.00 s
@@ -144,3 +187,7 @@ Failu nuskaitymo vidurkiai (5 bandymai):
 3. 'studentai100000.txt' - 1.99 s
 
 4. 'studentai1000000.txt' - 16.52 s
+
+## V0.1
+
+Pradine programa su dviem versijom (C kalbos masyvu ir vector).
