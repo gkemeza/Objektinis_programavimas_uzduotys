@@ -530,6 +530,7 @@ string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
     return failoPavadinimas;
 }
 
+// 1 Strategija
 void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai, StudentuKonteineris &kietiakai)
 {
     for (const Studentas &studentas : studentai)
