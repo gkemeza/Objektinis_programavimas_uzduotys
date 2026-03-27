@@ -531,7 +531,7 @@ string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
 }
 
 // 1 Strategija
-void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai, StudentuKonteineris &kietiakai)
+void skaidytiStudentus1(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai, StudentuKonteineris &kietiakai)
 {
     for (const Studentas &studentas : studentai)
     {
@@ -547,7 +547,7 @@ void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &varg
 }
 
 // 2 Strategija
-void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai)
+void skaidytiStudentus2(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai)
 {
     auto it = studentai.begin();
 
@@ -608,7 +608,7 @@ void failuGeneravimas()
 
         StudentuKonteineris vargsiukai;
         StudentuKonteineris kietiakai;
-        skaidytiStudentus(studentai, vargsiukai, kietiakai);
+        skaidytiStudentus1(studentai, vargsiukai, kietiakai);
 
         int input = skaitytiSkaiciu("Rusiuoti pagal (1 - vardas, 2 - pavarde, 3 - galutinis (vidurkis), 4 - galutinis (mediana):\n", 1, 4);
         rusiuotiStudentus(vargsiukai, input);
@@ -675,14 +675,14 @@ void duomenuApdorojimoTestavimas()
     StudentuKonteineris kietiakai;
 
     taskTimer.reset();
-    // skaidytiStudentus(studentai, vargsiukai, kietiakai);
-    // skaidytiStudentus(studentai, vargsiukai);
+    // skaidytiStudentus1(studentai, vargsiukai, kietiakai);
+    // skaidytiStudentus2(studentai, vargsiukai);
     skaidytiStudentus3(studentai, vargsiukai, kietiakai);
     cout << "Studentu rusiavimo i dvi grupes laikas: " << taskTimer.elapsed() << " s\n";
 
-    studentai.clear();
-    isvestisFailas(vargsiukai, "../outputData/testas_vargsiukai.txt");
-    isvestisFailas(kietiakai, "../outputData/testas_kietiakai.txt");
+    // studentai.clear();
+    // isvestisFailas(vargsiukai, "../outputData/testas_vargsiukai.txt");
+    // isvestisFailas(kietiakai, "../outputData/testas_kietiakai.txt");
 }
 
 void testuotiGreiti()
