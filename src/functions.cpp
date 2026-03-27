@@ -682,7 +682,7 @@ void duomenuApdorojimoTestavimas()
 
     studentai.clear();
     isvestisFailas(vargsiukai, "../outputData/testas_vargsiukai.txt");
-    isvestisFailas(studentai, "../outputData/testas_kietiakai.txt");
+    isvestisFailas(kietiakai, "../outputData/testas_kietiakai.txt");
 }
 
 void testuotiGreiti()
