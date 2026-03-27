@@ -546,6 +546,7 @@ void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &varg
     }
 }
 
+// 2 Strategija
 void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai)
 {
     auto it = studentai.begin();
