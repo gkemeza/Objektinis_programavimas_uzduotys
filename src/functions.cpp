@@ -566,13 +566,14 @@ void skaidytiStudentus2(StudentuKonteineris &studentai, StudentuKonteineris &var
 }
 
 // 3 Strategija
-void skaidytiStudentus3(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai, StudentuKonteineris &kietiakai)
+void skaidytiStudentus3(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai)
 {
     auto riba = stable_partition(studentai.begin(), studentai.end(), [](const Studentas &s)
                                  { return s.galutinisVidurkis < 5; });
 
     copy(studentai.begin(), riba, back_inserter(vargsiukai));
-    copy(riba, studentai.end(), back_inserter(kietiakai));
+
+    studentai.erase(studentai.begin(), riba);
 }
 
 void failuGeneravimas()
@@ -672,12 +673,12 @@ void duomenuApdorojimoTestavimas()
     cout << "Studentu rusiavimo pagal vidurki laikas (sort): " << taskTimer.elapsed() << " s\n";
 
     StudentuKonteineris vargsiukai;
-    StudentuKonteineris kietiakai;
+    // StudentuKonteineris kietiakai;
 
     taskTimer.reset();
     // skaidytiStudentus1(studentai, vargsiukai, kietiakai);
     // skaidytiStudentus2(studentai, vargsiukai);
-    skaidytiStudentus3(studentai, vargsiukai, kietiakai);
+    skaidytiStudentus3(studentai, vargsiukai);
     cout << "Studentu rusiavimo i dvi grupes laikas: " << taskTimer.elapsed() << " s\n";
 
     // studentai.clear();
