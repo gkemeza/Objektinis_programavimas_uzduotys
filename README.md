@@ -53,21 +53,21 @@
 ### 3 strategija (skaidymas į du konteinerius, panaudojant stable_partition(), copy() ir back_inserter())
 ### std::vector
 
-| Operacija               |    1 000 |   10 000 |  100 000 |  1 000 000 | 10 000 000 |
-|:------------------------|---------:|---------:|---------:|-----------:|-----------:|
-| Skirstymas i dvi grupes |  0.072 s |  6.371 s | 725.941 s| netestuota | netestuota |
+| Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
+|:------------------------|---------:|---------:|---------:|----------:|-----------:|
+| Skirstymas i dvi grupes |  0.002 s |  0.010 s |   0.116 s|   1.060 s |   12.980 s |
 
 ### std::list
 
 | Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
 |:------------------------|---------:|---------:|---------:|----------:|-----------:|
-| Skirstymas i dvi grupes |  0.001 s |  0.006 s |  0.037 s |   0.354 s |    4.514 s |
+| Skirstymas i dvi grupes |  0.002 s |  0.011 s |  0.128 s |   1.305 s |   15.276 s |
 
 ### std::deque
 
 | Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
 |:------------------------|---------:|---------:|---------:|----------:|-----------:|
-| Skirstymas i dvi grupes |  0.000 s |  0.003 s |  0.027 s |   0.307 s |    5.019 s |
+| Skirstymas i dvi grupes |  0.002 s |  0.007 s |  0.076 s |   0.849 s |   11.546 s |
 
 ## V0.4
 [1 TYRIMAS] Failo sukurimo vidurkiai (3 bandymai, 3 ND):
