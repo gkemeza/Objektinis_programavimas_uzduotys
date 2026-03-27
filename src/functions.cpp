@@ -100,9 +100,9 @@ double gautiVidurkiVidutini(const Studentas &studentas, int pazymiuSuma)
     return (pazymiuSuma * 1.0) / (studentas.namuDarbai * 1.0);
 }
 
-int gautiVidurkiMediana(const Studentas &studentas, int pazymiuSuma)
+double gautiVidurkiMediana(const Studentas &studentas, int pazymiuSuma)
 {
-    int size = studentas.pazymiai.size();
+    auto size = studentas.pazymiai.size();
 
     if (size % 2 != 0)
     {

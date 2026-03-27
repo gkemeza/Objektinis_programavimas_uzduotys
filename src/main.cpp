@@ -13,7 +13,6 @@ int main()
 {
     Studentas studentas;
     StudentuKonteineris studentai;
-    bool pridetiStudentai;
     int input;
 
     do
