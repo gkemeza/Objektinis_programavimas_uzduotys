@@ -6,7 +6,7 @@
 **RAM:** 8GB
 
 ### Spartos testavimas su skirtingais konteineriais
-
+### 1 strategija (studentai konteinerio skaidymas į du naujus to paties tipo konteinerius)
 ### std::vector
 
 | Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
@@ -30,6 +30,25 @@
 | Nuskaitymas is failo    |  0.002 s |  0.014 s |  0.120 s |   0.993 s |   14.062 s |
 | Rusiavimas (sort asc)   |  0.003 s |  0.032 s |  0.340 s |   4.529 s |   61.390 s |
 | Skirstymas i dvi grupes |  0.001 s |  0.003 s |  0.036 s |   0.373 s |    6.825 s |
+
+### 2 strategija (studentai konteinerio skirstymas panaudojant tik vieną naują konteinerį:)
+### std::vector
+
+| Operacija               |    1 000 |   10 000 |  100 000 |  1 000 000 | 10 000 000 |
+|:------------------------|---------:|---------:|---------:|-----------:|-----------:|
+| Skirstymas i dvi grupes |  0.072 s |  6.371 s | 725.941 s| netestuota | netestuota |
+
+### std::list
+
+| Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
+|:------------------------|---------:|---------:|---------:|----------:|-----------:|
+| Skirstymas i dvi grupes |  0.001 s |  0.006 s |  0.037 s |   0.354 s |    4.514 s |
+
+### std::deque
+
+| Operacija               |    1 000 |   10 000 |  100 000 | 1 000 000 | 10 000 000 |
+|:------------------------|---------:|---------:|---------:|----------:|-----------:|
+| Skirstymas i dvi grupes |  0.000 s |  0.003 s |  0.027 s |   0.307 s |    5.019 s |
 
 ## V0.4
 [1 TYRIMAS] Failo sukurimo vidurkiai (3 bandymai, 3 ND):
