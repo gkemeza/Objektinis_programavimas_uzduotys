@@ -6,11 +6,11 @@
 4 - failo nuskaitymas, duomenu rusiavimas ir isvedimas\
 5 - sugeneruoti pasirinkto dydzio faila\
 6 - testuoti failo sparta\
-7 - isjungti programa\
+7 - isjungti programa
 
 # Įdiegimo  instrukcija 
 
-git clone --branch v1.0 https://github.com/gkemeza/Objektinis_programavimas_uzduotys.git\
+git clone --branch v1.0 https://github.com/gkemeza/Objektinis_programavimas_uzduotys.git \
 cd Objektinis_programavimas_uzduotys\
 mkdir build && cd build\
 cmake ..\
