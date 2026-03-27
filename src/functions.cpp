@@ -116,6 +116,33 @@ int gautiVidurkiMediana(const Studentas &studentas, int pazymiuSuma)
     }
 }
 
+string skaitytiZodi(const string &pranesimas)
+{
+    while (true)
+    {
+        try
+        {
+            cout << pranesimas;
+            string eilute;
+            cin >> eilute;
+
+            for (char c : eilute)
+            {
+                if (!isalpha(c))
+                {
+                    throw runtime_error("Klaida: ivestas zodis turi turėti tik raides.");
+                }
+            }
+
+            return eilute;
+        }
+        catch (const runtime_error &ex)
+        {
+            cerr << "Klaida: " << ex.what() << "\n";
+        }
+    }
+}
+
 void ivestisRanka(Studentas &studentas)
 {
     try
@@ -153,6 +180,11 @@ int gautiPazymiuSuma(const Studentas &studentas)
     }
 
     return suma;
+}
+
+void surusiuotiPazymius(Studentas &studentas)
+{
+    sort(studentas.pazymiai.begin(), studentas.pazymiai.end());
 }
 
 bool suskaiciuotiGalutini(StudentuKonteineris &studentai)
@@ -466,33 +498,6 @@ int skaitytiSkaiciu(const string &pranesimas, int min, int max)
     }
 }
 
-string skaitytiZodi(const string &pranesimas)
-{
-    while (true)
-    {
-        try
-        {
-            cout << pranesimas;
-            string eilute;
-            cin >> eilute;
-
-            for (char c : eilute)
-            {
-                if (!isalpha(c))
-                {
-                    throw runtime_error("Klaida: ivestas zodis turi turėti tik raides.");
-                }
-            }
-
-            return eilute;
-        }
-        catch (const runtime_error &ex)
-        {
-            cerr << "Klaida: " << ex.what() << "\n";
-        }
-    }
-}
-
 string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
 {
     const string failoPavadinimas = "studentai" + to_string(studentuSkaicius);
@@ -540,6 +545,24 @@ void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &varg
     }
 }
 
+void skaidytiStudentus(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai)
+{
+    auto it = studentai.begin();
+
+    while (it != studentai.end())
+    {
+        if (it->galutinisVidurkis < 5)
+        {
+            vargsiukai.push_back(*it);
+            it = studentai.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
 void failuGeneravimas()
 {
     int studentuSkaicius = skaitytiSkaiciu("Iveskite studentu skaiciu (1 - 10 000 000):\n", 1, 10000000);
@@ -581,23 +604,6 @@ void failuGeneravimas()
 
         isvestisFailas(vargsiukai, failoPavadinimas + "_vargsiukai.txt");
         isvestisFailas(kietiakai, failoPavadinimas + "_kietiakai.txt");
-    }
-}
-
-void testuotiGreiti()
-{
-    int input = skaitytiSkaiciu("Pasirinkite (1 - failo kurimo testas, 2 - duomenu apdorojimo testas):\n", 1, 2);
-
-    switch (input)
-    {
-    case 1:
-        failoKurimoTestavimas();
-        break;
-    case 2:
-        duomenuApdorojimoTestavimas();
-        break;
-    default:
-        cout << "Neteisingas pasirinkimas!\n";
     }
 }
 
@@ -654,20 +660,34 @@ void duomenuApdorojimoTestavimas()
     cout << "Studentu rusiavimo pagal vidurki laikas (sort): " << taskTimer.elapsed() << " s\n";
 
     StudentuKonteineris vargsiukai;
-    StudentuKonteineris kietiakai;
+    // StudentuKonteineris kietiakai;
+
     taskTimer.reset();
-    skaidytiStudentus(studentai, vargsiukai, kietiakai);
+    // skaidytiStudentus(studentai, vargsiukai, kietiakai);
+    skaidytiStudentus(studentai, vargsiukai);
     cout << "Studentu rusiavimo i dvi grupes laikas: " << taskTimer.elapsed() << " s\n";
 
-    studentai.clear();
-    // studentai.shrink_to_fit();
+    // studentai.clear();
 
-    // taskTimer.reset();
     // isvestisFailas(vargsiukai, "../outputData/testas_vargsiukai.txt");
-    // isvestisFailas(kietiakai, "../outputData/testas_kietiakai.txt");
-    // cout << "Studentu isvedimo i du naujus failus laikas: " << taskTimer.elapsed() << " s\n";
+    // isvestisFailas(studentai, "../outputData/testas_kietiakai.txt");
+}
 
-    // cout << "Viso testavimo veikimo laikas: " << totalTimer.elapsed() << " s\n";
+void testuotiGreiti()
+{
+    int input = skaitytiSkaiciu("Pasirinkite (1 - failo kurimo testas, 2 - duomenu apdorojimo testas):\n", 1, 2);
+
+    switch (input)
+    {
+    case 1:
+        failoKurimoTestavimas();
+        break;
+    case 2:
+        duomenuApdorojimoTestavimas();
+        break;
+    default:
+        cout << "Neteisingas pasirinkimas!\n";
+    }
 }
 
 void failoNuskaitymas(StudentuKonteineris &studentai)
