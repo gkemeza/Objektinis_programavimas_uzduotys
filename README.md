@@ -176,7 +176,7 @@ Atliktas programos refactoring'as: prideti header failai ir isimciu gaudymas
 
 ## V0.2
 
-Sioje versijoje palikta tik vector versija ir pridetas failo nuskaitymas, duomenu rusiavimas
+Sioje versijoje atnaujinta tik vector versija ir pridetas failo nuskaitymas, duomenu rusiavimas
 
 Failu nuskaitymo vidurkiai (5 bandymai):
 
