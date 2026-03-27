@@ -23,11 +23,11 @@ struct Studentas
     double galutinisMediana = 0;
 };
 
-// using StudentuKonteineris = std::vector<Studentas>;
+using StudentuKonteineris = std::vector<Studentas>;
 // using StudentuKonteineris = std::list<Studentas>;
-using StudentuKonteineris = std::deque<Studentas>;
+// using StudentuKonteineris = std::deque<Studentas>;
 
-// funkcija, kuri grazina true arba false, pagal tai ar pirmas parametras yra "mazesnis" uz antra
+// Rodykle i bet kokia funkcija, kuri priima du Studentas objektus ir grazina bool reiksme
 using Comparator = bool (*)(const Studentas &, const Studentas &);
 
 template <typename Konteineris>

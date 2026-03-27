@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(Work_with_files)
+project(Darbas_su_studentais)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

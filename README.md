@@ -17,10 +17,10 @@ cmake ..\
 cmake --build .
 
 **Windows paleidimas:**\
-Debug\Work_with_files.exe
+Debug\Darbas_su_studentais.exe
 
 **Linux/Mac paleidimas (netestuota):**\
-./Work_with_files
+./Darbas_su_studentais
 
 # V1.0
 
