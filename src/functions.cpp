@@ -21,7 +21,8 @@ using std::string;
 using std::to_string;
 using std::uniform_int_distribution;
 using std::vector;
-using std::filesystem::exists;
+using std::filesystem::create_directories;
+using std::filesystem::current_path;
 
 void isvestis(const StudentuKonteineris &studentai, bool arMediana)
 {
@@ -70,6 +71,9 @@ void isvestisFailas(const StudentuKonteineris &studentai, string failoPavadinima
 {
     try
     {
+        const string dirPath = "../outputData/";
+        create_directories(dirPath);
+
         ofstream failas("../outputData/" + failoPavadinimas);
 
         if (!failas.is_open())
@@ -500,8 +504,10 @@ int skaitytiSkaiciu(const string &pranesimas, int min, int max)
 
 string generuotiFaila(int studentuSkaicius, int namuDarbuSkaicius)
 {
-    const string failoPavadinimas = "studentai" + to_string(studentuSkaicius);
+    const string dirPath = "../generatedData/";
+    create_directories(dirPath);
 
+    const string failoPavadinimas = "studentai" + to_string(studentuSkaicius);
     ofstream failas("../generatedData/" + failoPavadinimas + ".txt");
 
     if (!failas.is_open())
@@ -590,7 +596,7 @@ void failuGeneravimas()
         cerr << "KLAIDA: " << ex.what() << "\n";
     }
 
-    bool arPadalinti = skaitytiSkaiciu("Ar norite padalinti studentus? (1 - Taip, 2 - Ne):\n", 1, 2) == 1;
+    bool arPadalinti = skaitytiSkaiciu("Ar norite padalinti studentus (pagal vidurki)? (1 - Taip, 2 - Ne):\n", 1, 2) == 1;
 
     if (arPadalinti)
     {
@@ -632,6 +638,7 @@ void failoKurimoTestavimas()
     catch (const runtime_error &ex)
     {
         cerr << "KLAIDA: " << ex.what() << "\n";
+        return;
     }
     cout << fixed << setprecision(2);
     cout << "Failo sukurimo laikas: " << timer.elapsed() << " s" << endl;
@@ -731,7 +738,7 @@ void failoDuomenuApdorojimas(StudentuKonteineris &studentai)
     switch (input)
     {
     case 1:
-        isvestisFailas(studentai, "isvestis.txt");
+        isvestisFailas(studentai, "output.txt");
         break;
     case 2:
         isvestisKonsole(studentai);
