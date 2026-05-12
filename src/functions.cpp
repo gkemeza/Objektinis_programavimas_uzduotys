@@ -553,21 +553,12 @@ void skaidytiStudentus1(StudentuKonteineris &studentai, StudentuKonteineris &var
 }
 
 // 2 Strategija
-void skaidytiStudentus2(StudentuKonteineris &studentai, StudentuKonteineris &vargsiukai)
+void skaidytiStudentus2(StudentuKonteineris &studentai, StudentuKonteineris &kietiakai)
 {
-    auto it = studentai.begin();
-
-    while (it != studentai.end())
+    while (studentai.back().galutinisVidurkis >= 5 && !studentai.empty())
     {
-        if (it->galutinisVidurkis < 5)
-        {
-            vargsiukai.push_back(*it);
-            it = studentai.erase(it);
-        }
-        else
-        {
-            ++it;
-        }
+        kietiakai.push_back(studentai.back());
+        studentai.pop_back();
     }
 }
 
@@ -683,8 +674,8 @@ void duomenuApdorojimoTestavimas()
 
     taskTimer.reset();
     // skaidytiStudentus1(studentai, vargsiukai, kietiakai);
-    // skaidytiStudentus2(studentai, vargsiukai);
-    skaidytiStudentus3(studentai, vargsiukai, kietiakai);
+    skaidytiStudentus2(studentai, kietiakai);
+    // skaidytiStudentus3(studentai, vargsiukai, kietiakai);
     cout << "Studentu rusiavimo i dvi grupes laikas: " << taskTimer.elapsed() << " s\n";
 
     // studentai.clear();
